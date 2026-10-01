@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A-Coder — Identity Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#050506;color:#EBEBEB;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+.docHead{padding:64px 0 40px;border-bottom:1px solid rgba(255,255,255,.07)}
+.docHead h1{font-family:Outfit,sans-serif;font-weight:300;font-size:40px;letter-spacing:-.025em;line-height:1.1}
+.docHead p{margin-top:12px;font-size:14px;color:rgba(255,255,255,.55);max-width:62ch;line-height:1.6}
+
+/* ── option shell ───────────────────────── */
+.opt{border-bottom:1px solid rgba(255,255,255,.07);padding:56px 0 64px;position:relative;overflow:hidden}
+.optLabel{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.optTag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.72)}
+.optName{font-size:13px;color:rgba(255,255,255,.45)}
+.rec{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;padding:4px 8px;border-radius:999px}
+
+/* ── hero mock ──────────────────────────── */
+.heroMock{display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center;margin-top:40px;padding:44px 40px;border-radius:20px;position:relative;overflow:hidden}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:20px}
+.h1{font-size:52px;line-height:1.08;letter-spacing:-.028em;margin-bottom:18px}
+.lead{font-size:15px;line-height:1.65;max-width:46ch;color:rgba(255,255,255,.62)}
+.ctaRow{display:flex;gap:12px;align-items:center;margin-top:28px;flex-wrap:wrap}
+.btn{font-size:13px;font-weight:450;padding:0 18px;height:40px;display:inline-flex;align-items:center;gap:8px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .2s cubic-bezier(.22,1,.36,1)}
+.btn:hover{transform:translateY(-1px)}
+.btnGhost{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.82)}
+.install{margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:11px 14px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.motifBox{aspect-ratio:1;display:grid;place-items:center;position:relative}
+
+/* ── token strip ────────────────────────── */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:36px;padding-top:32px;border-top:1px solid rgba(255,255,255,.07)}
+.strip h4{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{width:34px;height:34px;border-radius:7px;border:1px solid rgba(255,255,255,.1)}
+.specimen div{line-height:1.25;margin-bottom:5px}
+.mini{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6}
+.mini b{color:rgba(255,255,255,.8);font-weight:500}
+.cardDemo{border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}
+.cardDemo .ct{font-size:13px;font-weight:500;margin-bottom:6px}
+.cardDemo .cd{font-size:12px;color:rgba(255,255,255,.5);line-height:1.55}
+.verdict{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:28px;font-size:12.5px;line-height:1.7}
+.verdict h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+.verdict ul{margin:0;padding-left:16px;color:rgba(255,255,255,.6)}
+.good h5{color:#6EE7B7}.bad h5{color:#FCA5A5}
+
+/* ══ OPTION A — APERTURE ══ */
+#optA{--a:#00B5B5;--a2:#2AD7D7;--a3:#CDF9F8;--adim:#006869}
+#optA .heroMock{background:radial-gradient(900px 420px at 18% -10%,rgba(0,181,181,.13),transparent 62%),#08090A;border:1px solid rgba(255,255,255,.07)}
+#optA .eyebrow{color:var(--a2)}
+#optA .h1{font-family:Outfit,sans-serif;font-weight:300;color:#F2F5F5}
+#optA .h1 em{font-style:normal;background:linear-gradient(96deg,var(--a) 0%,var(--a2) 45%,var(--a3) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#optA .btnPri{background:linear-gradient(180deg,#00C4C4,#009C9D);color:#04211F;font-weight:550;box-shadow:0 6px 22px -10px rgba(0,181,181,.75)}
+#optA .optTag{border-color:rgba(0,181,181,.42);color:#7FE4E4;background:rgba(0,181,181,.07)}
+#optA .rec{background:rgba(0,181,181,.14);color:#7FE4E4;border:1px solid rgba(0,181,181,.3)}
+
+/* ══ OPTION B — RAKING LIGHT ══ */
+#optB{--a:#FF8A4C;--a2:#FFB088;--a3:#D8DEE4;--adim:#7A3C1E}
+#optB .heroMock{background:linear-gradient(112deg,rgba(255,255,255,.09) 0%,rgba(255,255,255,.015) 26%,transparent 52%),#0A0A0B;border:1px solid rgba(255,255,255,.07)}
+#optB .eyebrow{color:var(--a)}
+#optB .h1{font-family:'Space Grotesk',sans-serif;font-weight:400;color:#F4F6F8}
+#optB .h1 em{font-style:normal;background:linear-gradient(100deg,#E8EDF2 0%,#AEB8C2 40%,#FF8A4C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#optB .btnPri{background:linear-gradient(180deg,#F2F5F8,#C9D2DB);color:#0A0A0B;font-weight:600;box-shadow:0 6px 22px -12px rgba(255,255,255,.55)}
+#optB .optTag{border-color:rgba(255,138,76,.42);color:#FFB088;background:rgba(255,138,76,.07)}
+#optB .eyebrow,#optB .install b{color:#FF8A4C}
+
+/* ══ OPTION C — BLUEPRINT ══ */
+#optC{--a:#00B5B5;--a2:#5EEAD4;--a3:#99F6E4;--adim:#134E4A}
+#optC .heroMock{background-color:#070809;background-image:linear-gradient(rgba(0,181,181,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(0,181,181,.055) 1px,transparent 1px);background-size:44px 44px;border:1px solid rgba(0,181,181,.18)}
+#optC .eyebrow{color:var(--a2)}
+#optC .h1{font-family:Outfit,sans-serif;font-weight:200;color:#EAF4F3}
+#optC .h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1px var(--a2)}
+#optC .btnPri{background:transparent;border:1px solid var(--a);color:var(--a2);font-weight:500;border-radius:4px}
+#optC .btnPri:hover{background:rgba(0,181,181,.1)}
+#optC .btnGhost{border-radius:4px}
+#optC .optTag{border-color:rgba(0,181,181,.42);color:#5EEAD4;background:rgba(0,181,181,.07)}
+#optC .install{border-radius:4px;border-color:rgba(0,181,181,.2)}
+#optC .chip,#optC .cardDemo{border-radius:4px}
+
+@media(max-width:900px){.heroMock{grid-template-columns:1fr;padding:32px 24px}.strip{grid-template-columns:1fr 1fr}.verdict{grid-template-columns:1fr}.h1{font-size:38px}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="docHead">
+    <h1>A-Coder — three identity directions</h1>
+    <p>Same hero, same copy, same structure. Only the identity changes: accent system, signature motif and typeface pairing. Structure and tokens come from <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8EE">DESIGN_SPEC.md</code>; the copy is A-Coder's own.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ OPTION A ═══════════════ -->
+<section class="opt" id="optA"><div class="wrap">
+  <div class="optLabel">
+    <span class="optTag">Option A · Aperture</span>
+    <span class="rec">Recommended</span>
+    <span class="optName">Outfit 300 + Inter + JetBrains Mono · accent #00B5B5</span>
+  </div>
+
+  <div class="heroMock">
+    <div>
+      <div class="eyebrow">Apache-2.0 · Built on VS Code &amp; Void</div>
+      <div class="h1">Your true <em>open source</em><br>AI IDE.</div>
+      <p class="lead">Chat, Plan, Agent and Learn — four modes in one editor. Your keys, your machine, direct to the provider. No middleman, no lock-in.</p>
+      <div class="ctaRow">
+        <button class="btn btnPri">Download for macOS</button>
+        <button class="btn btnGhost">★ 37 · View source</button>
+      </div>
+      <div class="install"><span>curl -fsSL https://…/install.sh | bash</span><span style="opacity:.55">copy</span></div>
+    </div>
+    <div class="motifBox">
+      <svg viewBox="0 0 220 200" width="100%" style="max-width:250px">
+        <defs>
+          <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#CDF9F8"/><stop offset=".5" stop-color="#00B5B5"/><stop offset="1" stop-color="#004C4D"/>
+          </linearGradient>
+        </defs>
+        <g fill="none" stroke="url(#gA)" stroke-linecap="round">
+          <path d="M110 14 L204 178 L16 178 Z" stroke-width="3" opacity=".95"/>
+          <path d="M110 34 L188 170 L32 170 Z" stroke-width="2.6" opacity=".8" stroke-dasharray="150 28" stroke-dashoffset="20"/>
+          <path d="M110 54 L172 162 L48 162 Z" stroke-width="2.3" opacity=".68" stroke-dasharray="120 26" stroke-dashoffset="70"/>
+          <path d="M110 74 L156 154 L64 154 Z" stroke-width="2" opacity=".56" stroke-dasharray="92 22" stroke-dashoffset="34"/>
+          <path d="M110 94 L140 146 L80 146 Z" stroke-width="1.7" opacity=".44" stroke-dasharray="66 18"/>
+          <path d="M110 112 L127 139 L93 139 Z" stroke-width="1.4" opacity=".32" stroke-dasharray="40 14" stroke-dashoffset="12"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div><h4>Accent ramp</h4><div class="chips">
+      <div class="chip" style="background:#CDF9F8"></div><div class="chip" style="background:#81ECEC"></div>
+      <div class="chip" style="background:#2AD7D7"></div><div class="chip" style="background:#00B5B5"></div>
+      <div class="chip" style="background:#00A4A4"></div><div class="chip" style="background:#006869"></div>
+      <div class="chip" style="background:#003133"></div></div>
+      <p class="mini" style="margin-top:12px">Lifted straight from the IDE's own <b>DESIGN.md</b> — <code style="font-family:'JetBrains Mono',monospace">oklch(.7 .12 195)</code>. Site and product become one brand.</p>
+    </div>
+    <div class="specimen"><h4>Type</h4>
+      <div style="font-family:Outfit;font-weight:200;font-size:26px;letter-spacing:-.03em">Outfit 200 · display</div>
+      <div style="font-family:Outfit;font-weight:300;font-size:20px;letter-spacing:-.025em">Outfit 300 · headline</div>
+      <div style="font-family:Inter;font-weight:400;font-size:14px;color:rgba(255,255,255,.65)">Inter 400 · body copy at fourteen px</div>
+      <div style="font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,.5)">JetBrains Mono · code &amp; labels</div>
+    </div>
+    <div><h4>Motif — the aperture</h4><p class="mini">The logo's nested triangles, redrawn as an open <b>aperture</b>. Used as: section rules, bento card backdrops, the scroll-tour progress ring, loading states, and the 3D hero object.</p></div>
+    <div><h4>Applied</h4><div class="cardDemo"><div class="ct">TOON compression</div><div class="cd">30–70% fewer tokens on structured tool results. Opt-in.</div>
+      <div style="margin-top:12px;height:4px;border-radius:99px;background:rgba(255,255,255,.07)"><div style="width:62%;height:100%;border-radius:99px;background:linear-gradient(90deg,#00B5B5,#81ECEC)"></div></div></div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="good"><h5>Why this one</h5><ul>
+      <li>It is <b>already A-Coder's colour</b> — the IDE's own accent, so site and product match by construction.</li>
+      <li>Cool teal is the correct partner for brushed steel; it reads as patina on the metal, not a sticker over it.</li>
+      <li>195° is empty space — clear of freebuff's lime, Cursor's mono, Linear's indigo, Supabase's emerald.</li>
+      <li>The motif is our real mark, so it costs nothing to justify and scales from favicon to 3D hero.</li>
+    </ul></div>
+    <div class="bad"><h5>Trade-off</h5><ul>
+      <li>Teal is the most common "developer tool" accent after blue — it needs the light weights and the 3D logo to feel singular.</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- ═══════════════ OPTION B ═══════════════ -->
+<section class="opt" id="optB"><div class="wrap">
+  <div class="optLabel">
+    <span class="optTag">Option B · Raking Light</span>
+    <span class="optName">Space Grotesk + Inter + JetBrains Mono · steel + ember #FF8A4C</span>
+  </div>
+
+  <div class="heroMock">
+    <div>
+      <div class="eyebrow">Apache-2.0 · Built on VS Code &amp; Void</div>
+      <div class="h1">Your true <em>open source</em><br>AI IDE.</div>
+      <p class="lead">Chat, Plan, Agent and Learn — four modes in one editor. Your keys, your machine, direct to the provider. No middleman, no lock-in.</p>
+      <div class="ctaRow">
+        <button class="btn btnPri">Download for macOS</button>
+        <button class="btn btnGhost">★ 37 · View source</button>
+      </div>
+      <div class="install"><span>curl -fsSL https://…/install.sh | bash</span><span style="opacity:.55">copy</span></div>
+    </div>
+    <div class="motifBox">
+      <svg viewBox="0 0 220 200" width="100%" style="max-width:250px">
+        <defs>
+          <linearGradient id="gB" x1=".1" y1="0" x2=".9" y2="1">
+            <stop offset="0" stop-color="#FFFFFF"/><stop offset=".35" stop-color="#B9C2CB"/>
+            <stop offset=".72" stop-color="#4A5058"/><stop offset="1" stop-color="#FF8A4C"/>
+          </linearGradient>
+        </defs>
+        <g fill="none" stroke="url(#gB)" stroke-linecap="round">
+          <path d="M110 14 L204 178 L16 178 Z" stroke-width="3.4"/>
+          <path d="M110 34 L188 170 L32 170 Z" stroke-width="2.8" stroke-dasharray="150 28" stroke-dashoffset="20"/>
+          <path d="M110 54 L172 162 L48 162 Z" stroke-width="2.4" stroke-dasharray="120 26" stroke-dashoffset="70"/>
+          <path d="M110 74 L156 154 L64 154 Z" stroke-width="2.1" stroke-dasharray="92 22" stroke-dashoffset="34"/>
+          <path d="M110 94 L140 146 L80 146 Z" stroke-width="1.8" stroke-dasharray="66 18"/>
+          <path d="M110 112 L127 139 L93 139 Z" stroke-width="1.5" stroke-dasharray="40 14" stroke-dashoffset="12"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div><h4>Accent ramp</h4><div class="chips">
+      <div class="chip" style="background:#F2F5F8"></div><div class="chip" style="background:#C9D2DB"></div>
+      <div class="chip" style="background:#8A939C"></div><div class="chip" style="background:#4A5058"></div>
+      <div class="chip" style="background:#FFB088"></div><div class="chip" style="background:#FF8A4C"></div>
+      <div class="chip" style="background:#7A3C1E"></div></div>
+      <p class="mini" style="margin-top:12px">Steel greys carry the page; <b>ember</b> appears only on live/agent-running states — an accent that <i>means</i> something.</p>
+    </div>
+    <div class="specimen"><h4>Type</h4>
+      <div style="font-family:'Space Grotesk';font-weight:300;font-size:26px;letter-spacing:-.03em">Space Grotesk 300</div>
+      <div style="font-family:'Space Grotesk';font-weight:400;font-size:20px;letter-spacing:-.02em">Space Grotesk 400 · headline</div>
+      <div style="font-family:Inter;font-weight:400;font-size:14px;color:rgba(255,255,255,.65)">Inter 400 · body copy at fourteen px</div>
+      <div style="font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,.5)">JetBrains Mono · code &amp; labels</div>
+    </div>
+    <div><h4>Motif — the light</h4><p class="mini">Not a shape but <b>the raking light itself</b>. A 112° sweep lights every section's top-left, borders brightening where it lands — literalising the logo's lit-metal edge.</p></div>
+    <div><h4>Applied</h4><div class="cardDemo"><div class="ct">Agent running</div><div class="cd">Multi-file edits with per-tool permissions.</div>
+      <div style="margin-top:12px;height:4px;border-radius:99px;background:rgba(255,255,255,.07)"><div style="width:62%;height:100%;border-radius:99px;background:linear-gradient(90deg,#FF8A4C,#FFB088)"></div></div></div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="good"><h5>Strengths</h5><ul>
+      <li>The most <b>distinctive</b> of the three — nobody in this category owns steel-plus-ember.</li>
+      <li>Derived from the logo's actual lighting, so the mark and the site share one physical logic.</li>
+      <li>Warm accent on cold metal is a genuinely premium, industrial combination.</li>
+    </ul></div>
+    <div class="bad"><h5>Trade-off</h5><ul>
+      <li><b>It contradicts the product.</b> The IDE's <code style="font-family:'JetBrains Mono',monospace">DESIGN.md</code> specifies teal; an orange site would diverge from the app — the opposite of the brief's "one brand" requirement.</li>
+      <li>Orange is close to the existing <code style="font-family:'JetBrains Mono',monospace">--warning</code> token, risking semantic confusion.</li>
+      <li>Requires either an IDE re-skin or accepting the mismatch.</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- ═══════════════ OPTION C ═══════════════ -->
+<section class="opt" id="optC" style="border-bottom:none"><div class="wrap">
+  <div class="optLabel">
+    <span class="optTag">Option C · Blueprint</span>
+    <span class="optName">Outfit 200 + JetBrains Mono-forward · teal as line, not fill</span>
+  </div>
+
+  <div class="heroMock">
+    <div>
+      <div class="eyebrow">Apache-2.0 · Built on VS Code &amp; Void</div>
+      <div class="h1">Your true <em>open source</em><br>AI IDE.</div>
+      <p class="lead">Chat, Plan, Agent and Learn — four modes in one editor. Your keys, your machine, direct to the provider. No middleman, no lock-in.</p>
+      <div class="ctaRow">
+        <button class="btn btnPri">Download for macOS</button>
+        <button class="btn btnGhost">★ 37 · View source</button>
+      </div>
+      <div class="install"><span>curl -fsSL https://…/install.sh | bash</span><span style="opacity:.55">copy</span></div>
+    </div>
+    <div class="motifBox">
+      <svg viewBox="0 0 220 200" width="100%" style="max-width:250px">
+        <g fill="none" stroke="#00B5B5" stroke-linecap="square">
+          <path d="M110 14 L204 178 L16 178 Z" stroke-width="1.1"/>
+          <path d="M110 34 L188 170 L32 170 Z" stroke-width="1.1" opacity=".82"/>
+          <path d="M110 54 L172 162 L48 162 Z" stroke-width="1.1" opacity=".66"/>
+          <path d="M110 74 L156 154 L64 154 Z" stroke-width="1.1" opacity=".5"/>
+          <path d="M110 94 L140 146 L80 146 Z" stroke-width="1.1" opacity=".36"/>
+          <path d="M110 112 L127 139 L93 139 Z" stroke-width="1.1" opacity=".24"/>
+          <g stroke="#5EEAD4" stroke-width=".7" opacity=".5">
+            <path d="M110 6 L110 190 M8 184 L212 184"/>
+            <path d="M16 178 L110 14 M204 178 L110 14" stroke-dasharray="3 5" opacity=".5"/>
+          </g>
+        </g>
+        <g fill="#5EEAD4" font-family="JetBrains Mono,monospace" font-size="7" opacity=".7">
+          <text x="114" y="196">R7</text><text x="4" y="176">0,0</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div><h4>Accent ramp</h4><div class="chips">
+      <div class="chip" style="background:#99F6E4"></div><div class="chip" style="background:#5EEAD4"></div>
+      <div class="chip" style="background:#2AD7D7"></div><div class="chip" style="background:#00B5B5"></div>
+      <div class="chip" style="background:#00A4A4"></div><div class="chip" style="background:#134E4A"></div>
+      <div class="chip" style="background:#042F2E"></div></div>
+      <p class="mini" style="margin-top:12px">Same teal as A, but used as <b>1px line</b> almost everywhere — measured, technical, never filled.</p>
+    </div>
+    <div class="specimen"><h4>Type</h4>
+      <div style="font-family:Outfit;font-weight:200;font-size:26px;letter-spacing:-.03em">Outfit 200 · display</div>
+      <div style="font-family:Outfit;font-weight:300;font-size:20px;letter-spacing:-.025em">Outfit 300 · headline</div>
+      <div style="font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,.62)">JetBrains Mono carries all labels,</div>
+      <div style="font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,.5)">eyebrows, metadata and figures</div>
+    </div>
+    <div><h4>Motif — the grid</h4><p class="mini">A <b>technical-drawing grid</b> with the triangle as construction geometry: crosshairs, dashed guides, mono annotations. The grid reacts to the cursor.</p></div>
+    <div><h4>Applied</h4><div class="cardDemo" style="border-color:rgba(0,181,181,.22);background:rgba(0,181,181,.03)"><div class="ct">Semantic search</div><div class="cd">Morph Fast Context over your whole repo.</div>
+      <div style="margin-top:12px;height:4px;background:rgba(0,181,181,.12)"><div style="width:62%;height:100%;background:#00B5B5"></div></div></div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="good"><h5>Strengths</h5><ul>
+      <li>Most obviously <b>engineered</b> — reads as an instrument, close to Zed's technical honesty.</li>
+      <li>Keeps the product-correct teal while looking nothing like Option A.</li>
+      <li>Mono-forward labelling suits an Apache-2.0 project far better than growth-marketing gloss.</li>
+    </ul></div>
+    <div class="bad"><h5>Trade-off</h5><ul>
+      <li>Wireframe aesthetics <b>fight the logo</b>, which is solid, lit, volumetric metal — the 3D hero would sit oddly on a flat blueprint.</li>
+      <li>Grid backgrounds are a fast-ageing trend and can read as cold.</li>
+      <li>Hairline teal on near-black needs care to hold WCAG AA.</li>
+    </ul></div>
+  </div>
+</div></section>
+
+</body>
+</html>

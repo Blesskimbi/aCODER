@@ -1,26 +1,582 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════
+   A-CODER — IDENTITY: "RAKING LIGHT"
+   Steel is the brand. Ember is energy, and it means something:
+   it appears only where the product is *live* (agent running,
+   streaming, applying). Never decorative.
+
+   Structure, spacing, radii and motion derive from DESIGN_SPEC.md.
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Steel — the brand ramp ─────────────────────────────── */
+  --color-steel-50:  #F2F5F8;
+  --color-steel-100: #E2E8EE;
+  --color-steel-200: #C9D2DB;
+  --color-steel-300: #AEB8C2;
+  --color-steel-400: #8A939C;
+  --color-steel-500: #6B737B;
+  --color-steel-600: #4A5058;
+  --color-steel-700: #33383E;
+  --color-steel-800: #202428;
+  --color-steel-900: #14171A;
+  --color-steel-950: #0A0A0B;
+
+  /* ── Ember — energy accent (live / agent / streaming) ───── */
+  --color-ember-50:  #FFE8DC;
+  --color-ember-100: #FFD0B8;
+  --color-ember-200: #FFB088;
+  --color-ember-300: #FF9A66;
+  --color-ember-400: #FF8A4C; /* core */
+  --color-ember-500: #F2701F;
+  --color-ember-600: #C85A18;
+  --color-ember-700: #7A3C1E;
+  --color-ember-800: #4A2412;
+
+  /* ── Canvas ─────────────────────────────────────────────── */
+  --color-canvas:      #0A0A0B;
+  --color-canvas-deep: #050506;
+  --color-panel:       #0E0F11;
+  --color-chrome:      #121316;
+
+  /* ── Functional ─────────────────────────────────────────────
+     warning pushed to yellow-amber (~45°) so it cannot be
+     confused with ember (~22°). Ember = live. Amber = caution. */
+  --color-success: #4ADE80;
+  --color-warning: #FFC53D;
+  --color-danger:  #F87171;
+  --color-info:    #7DD3FC;
+
+  /* Diff colours — matched to the IDE */
+  --color-diff-add:    #4ADE80;
+  --color-diff-remove: #F87171;
+
+  /* The IDE's own accent. Used ONLY inside product mockups, so
+     they read as genuine screenshots of the app surface.
+     See PLAN.md — deliberate, not a palette mismatch. */
+  --color-ide-teal:     #00B5B5;
+  --color-ide-teal-lit: #2AD7D7;
+
+  /* ── Type ───────────────────────────────────────────────── */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans:    var(--font-inter), system-ui, sans-serif;
+  --font-mono:    var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  /* ── Radii — the barbell, plus the mid tier the reference lacks */
+  --radius-xs:    3px;
+  --radius-sm:    5px;
+  --radius-md:    8px;
+  --radius-lg:    10px;
+  --radius-card:  14px;
+  --radius-panel: 20px;
+  --radius-full:  9999px;
+
+  /* ── Elevation — DESIGN_SPEC §6, note the negative spread ── */
+  --shadow-sm: 0 1px 2px #0006;
+  --shadow-md: 0 2px 6px #00000073;
+  --shadow-lg: 0 8px 24px -12px #000000b3;
+  --shadow-panel: 0 24px 64px -32px #000000e6, 0 2px 8px #00000066;
+
+  /* ── Motion — the complete easing set ───────────────────── */
+  --ease-expo:     cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-shine:    cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-radius:   cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-settle:   cubic-bezier(0.25, 0.7, 0.3, 1);
+  --ease-overshoot:cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+
+  --duration-instant: 90ms;
+  --duration-fast:    160ms;
+  --duration-base:    240ms;
+  --duration-slow:    340ms;
+  --duration-hold:    70ms;
+
+  /* ── Containers ─────────────────────────────────────────── */
+  --container-content: 1152px;
+  --container-prose:   1024px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --rake-angle: 112deg;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-canvas);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: #EBEBEB;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+}
+
+/* Never pure white for body copy — DESIGN_SPEC §1.1 */
+::selection {
+  background: rgba(255, 138, 76, 0.28);
+  color: #FFF;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ember-400);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Tabular numerals for all counters and metrics */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.text-balance { text-wrap: balance; }
+
+/* ═══════════════════════════════════════════════════════════════
+   THE RAKING LIGHT — the signature motif
+
+   A single light source at 112°, upper-left. Every surface that
+   catches it brightens along that axis, and every border is lit
+   top-heavy (26% top / 8.5% side / 2.2% bottom) exactly as the
+   reference's shine system does. This is the whole identity:
+   the site is lit like the logo is lit.
+   ═══════════════════════════════════════════════════════════════ */
+
+.rake {
+  position: relative;
+  background-image: linear-gradient(
+    var(--rake-angle),
+    rgba(255, 255, 255, 0.075) 0%,
+    rgba(255, 255, 255, 0.022) 26%,
+    rgba(255, 255, 255, 0) 54%
+  );
+}
+
+/* Top-lit 1px border. The single highest-value detail in the system. */
+.rake-edge {
+  position: relative;
+}
+.rake-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    var(--rake-angle),
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.085) 34%,
+    rgba(255, 255, 255, 0.022) 68%,
+    rgba(255, 255, 255, 0.055) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity var(--duration-slow) var(--ease-expo);
+}
+
+/* Ember variant — only for live/active surfaces */
+.rake-edge-ember::before {
+  background: linear-gradient(
+    var(--rake-angle),
+    rgba(255, 176, 136, 0.5) 0%,
+    rgba(255, 138, 76, 0.22) 38%,
+    rgba(255, 138, 76, 0.05) 72%,
+    rgba(255, 138, 76, 0.14) 100%
+  );
+}
+
+/* The sweep — light travelling across a surface. Used on the
+   hero and on "applying" states. 1.8s, matching the reference. */
+@keyframes rake-sweep {
+  0%   { transform: translateX(-120%) skewX(-18deg); opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateX(220%) skewX(-18deg); opacity: 0; }
+}
+
+.rake-sweep {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.rake-sweep::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  width: 14%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1) 45%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.1) 55%,
+    transparent
+  );
+  animation: rake-sweep 1.8s var(--ease-shine) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cursor-following spotlight — named in the IDE's DESIGN.md */
+.spotlight {
+  position: relative;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(
+    600px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.055),
+    transparent 42%
+  );
+  transition: opacity var(--duration-slow) var(--ease-expo);
+  pointer-events: none;
+}
+.spotlight:hover::before { opacity: 1; }
+
+/* Staggered entry — 60ms steps, per the IDE's DESIGN.md */
+@keyframes rake-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stagger > * {
+  opacity: 0;
+  animation: rake-fade-up 400ms var(--ease-expo) forwards;
+}
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 60ms; }
+.stagger > *:nth-child(3) { animation-delay: 120ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 240ms; }
+.stagger > *:nth-child(6) { animation-delay: 300ms; }
+.stagger > *:nth-child(7) { animation-delay: 360ms; }
+.stagger > *:nth-child(8) { animation-delay: 420ms; }
+
+/* ═══════════════════════════════════════════════════════════════
+   CARDS
+
+   A cool-tinted 1px hairline on a transparent ground, large radius,
+   and no drop shadow at all — depth comes from the border and an
+   optional top-centred glow bleeding downward, not from elevation.
+   ═══════════════════════════════════════════════════════════════ */
+
+.card {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid rgba(214, 235, 253, 0.19);
+  background-color: transparent;
+  box-shadow: none;
+  transition: border-color var(--duration-slow) var(--ease-expo);
+}
+
+.card-interactive:hover {
+  border-color: rgba(214, 235, 253, 0.32);
+}
+
+/* Top-centred accent bleed. ::after, because .spotlight owns ::before. */
+.card-glow {
+  overflow: hidden;
+  isolation: isolate;
+}
+.card-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+    100% 50% at 50% 0%,
+    rgba(255, 138, 76, 0.13) 0%,
+    rgba(255, 138, 76, 0) 50%,
+    rgba(255, 138, 76, 0) 100%
+  );
+}
+
+/* Steel variant, for surfaces where ember would over-signal. */
+.card-glow-steel::after {
+  background: radial-gradient(
+    100% 50% at 50% 0%,
+    rgba(214, 235, 253, 0.1) 0%,
+    rgba(214, 235, 253, 0) 50%,
+    rgba(214, 235, 253, 0) 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BOTTOM FADE
+
+   Panels that hold code or UI dissolve into the canvas rather than
+   ending on a hard border. The overlay is inset by 1px on the sides
+   and bottom so it covers the border line itself — otherwise a bright
+   hairline survives underneath the fade and defeats the effect.
+   ═══════════════════════════════════════════════════════════════ */
+
+.fade-bottom {
+  position: relative;
+  /* Square the bottom off. A rounded bottom edge always reads as the
+     end of a floating card; squaring it makes the panel feel set into
+     the page, as though the content carries on past the cut. */
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  /* A drop shadow would redraw the very edge we are hiding. */
+  box-shadow: none;
+}
+
+.fade-bottom::after {
+  content: "";
+  position: absolute;
+  /* inset 0, not -1px: the panel sets overflow:hidden, so any overhang
+     is clipped away and a negative inset buys nothing. */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* ~32% of a standard mockup. Taller starts swallowing the Fast Apply
+     bar and the chat input, which are what make the panel read as real
+     software. Tune here — it drives every fade. */
+  height: 130px;
+  border-radius: 0;
+  /* Fully opaque by 74%, so the bottom quarter is solid canvas and no
+     border, background seam or antialiased corner can survive under it. */
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 11, 0) 0%,
+    rgba(10, 10, 11, 0.6) 30%,
+    rgba(10, 10, 11, 0.93) 55%,
+    #0a0a0b 74%,
+    #0a0a0b 100%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Shorter, for smaller panels where 130px would swallow the content. */
+.fade-bottom-sm::after {
+  height: 96px;
+}
+
+/* Sized to sit entirely inside a card's own bottom padding, so the
+   gradient never touches a line of text. */
+.fade-bottom-xs::after {
+  height: 44px;
+}
+
+/**
+ * Group fade — for a grid or stack of cards.
+ *
+ * Applied to the CONTAINER, not the cards. CSS has no "last row"
+ * selector, and hard-coding which children sit at the bottom breaks
+ * the moment the grid reflows at another breakpoint. Overlaying the
+ * container's bottom edge means whichever cards land in the final row
+ * dissolve correctly at every width, with no JS and nothing to keep
+ * in sync.
+ */
+.fade-group {
+  position: relative;
+}
+
+.fade-group::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 104px;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 11, 0) 0%,
+    rgba(10, 10, 11, 0.55) 34%,
+    rgba(10, 10, 11, 0.9) 60%,
+    #0a0a0b 80%,
+    #0a0a0b 100%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Gentler, where the last row carries text right to its base. */
+.fade-group-sm::after {
+  height: 68px;
+}
+
+/* Scrollable, but without the scrollbar chrome. Native bars on
+   Windows are chunky and read as unfinished on a dark surface, so
+   overflow is kept for narrow viewports and the bar itself hidden. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Long single-line content fades out at the right edge rather than
+   ending at a hard clip or a scrollbar. */
+.fade-right {
+  -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 82%, transparent 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER WORDMARK
+
+   Two stacked copies of "A-Coder". The base sits just above the
+   background; the reveal layer is stroked and glowing but masked to a
+   radial spotlight that follows the cursor. Only --wm-x / --wm-y /
+   --wm-on change at runtime, all from one rAF loop, so nothing here
+   costs a React render.
+
+   Sized in cqw rather than vw so the word fills the *container* at
+   every breakpoint instead of tracking the viewport past the 1152px cap.
+   ═══════════════════════════════════════════════════════════════ */
+
+.wm {
+  container-type: inline-size;
+  position: relative;
+  overflow: hidden; /* never allow the nowrap text to open a scrollbar */
+  --wm-x: 50%;
+  --wm-y: 50%;
+  --wm-on: 0;
+  /* 7 glyphs at roughly .58em advance ≈ 4.06em total. */
+  --wm-fs: 24.4cqw;
+  --wm-r: clamp(150px, 20cqw, 300px);
+}
+
+.wm-clip {
+  position: relative;
+  /* Shorter than the text, so the baseline is cut by the border. */
+  height: calc(var(--wm-fs) * 0.66);
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.wm-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  display: block;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--wm-fs);
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  /* Centred, so any slack between the glyph advance and the container
+     is split evenly instead of pooling on the right. The trailing
+     letter-spacing on the final glyph alone leaves a sliver. */
+  text-align: center;
+  user-select: none;
+}
+
+/* At rest: barely separated from the canvas. */
+.wm-base {
+  color: rgba(255, 255, 255, 0.045);
+}
+
+/* Revealed inside the spotlight only. */
+.wm-reveal {
+  color: rgba(255, 255, 255, 0.1);
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.72);
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.2))
+    /* a whisper of ember, so the glow belongs to this brand */
+    drop-shadow(0 0 44px rgba(255, 138, 76, 0.16));
+  opacity: var(--wm-on);
+  -webkit-mask-image: radial-gradient(
+    circle var(--wm-r) at var(--wm-x) var(--wm-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 48%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    circle var(--wm-r) at var(--wm-x) var(--wm-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 48%,
+    transparent 72%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Spacing under the cut line, painted in the canvas colour so it is
+   indistinguishable from the page. This was previously a lighter wash
+   (white .035 plus an ember tint) which read as a separate band with a
+   visible edge — the whole point is that you cannot tell where it ends. */
+.wm-glow {
+  height: clamp(56px, 7cqw, 110px);
+  background: var(--color-canvas);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Spotlight parks in the centre; the rAF loop never starts. */
+  .wm {
+    --wm-on: 1;
+  }
+}
+
+/* Provider marquee — atmosphere band, deliberately slow */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Hairline — the reference's section separator */
+.hairline {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.09) 18%,
+    rgba(255, 255, 255, 0.09) 82%,
+    transparent
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   The reference sets body copy at white/30–40 (~3.4:1), below AA.
+   We keep the look but floor sustained copy at white/60 (~6.5:1).
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .stagger > * { opacity: 1; }
+  .rake-sweep::after { display: none; }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
