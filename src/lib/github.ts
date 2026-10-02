@@ -31,10 +31,26 @@ export interface Release {
   assets: ReleaseAsset[];
 }
 
+/**
+ * Optional build-time token.
+ *
+ * Unauthenticated GitHub allows 60 requests/hour per IP, which a shared
+ * CI runner can exhaust before the build starts. When that happens every
+ * call here returns null: stats fall back to the constants in site.ts and
+ * `/changelog/[version]` prerenders no paths at all. Setting either
+ * variable raises the limit to 5,000/hour and makes release pages
+ * deterministic. Read-only `public_repo` scope is sufficient; no token is
+ * required for the build to succeed.
+ */
+const TOKEN = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
+
 async function gh<T>(path: string): Promise<T | null> {
   try {
     const res = await fetch(`https://api.github.com/repos/${SITE.repo}${path}`, {
-      headers: { Accept: "application/vnd.github+json" },
+      headers: {
+        Accept: "application/vnd.github+json",
+        ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
+      },
       next: { revalidate: REVALIDATE },
     });
     if (!res.ok) return null;
@@ -100,7 +116,24 @@ function normalise(r: RawRelease): Release {
   };
 }
 
-export async function getReleases(limit = 20): Promise<Release[]> {
+/**
+ * How many releases the site reads, everywhere.
+ *
+ * This is a cache-size limit, not an editorial one. Each release carries
+ * ~57 assets, so the response is large: 15 releases is ~1.3 MB, 20 is
+ * ~1.7 MB and 30 exceeds the 2 MB Next data-cache ceiling. Past that
+ * ceiling nothing is cached, so every page that reads releases issues its
+ * own request — which on an unauthenticated runner means 14-odd calls
+ * against a 60/hour limit, and an empty changelog once it trips.
+ *
+ * Keeping one shared limit also keeps /changelog and /changelog/[version]
+ * in agreement: every release listed on the index has a detail page.
+ */
+export const RELEASE_LIMIT = 15;
+
+export async function getReleases(
+  limit: number = RELEASE_LIMIT,
+): Promise<Release[]> {
   const data = await gh<RawRelease[]>(`/releases?per_page=${limit}`);
   if (!Array.isArray(data)) return [];
   return data.filter((r) => !r.draft).map(normalise);
@@ -260,3 +293,22 @@ export function formatBytes(bytes: number): string {
   if (mb >= 1024) return `${(mb / 1024).toFixed(2)} GB`;
   return `${Math.round(mb)} MB`;
 }
+
+/**
+ * URL segment for a release.
+ *
+ * Releases are addressed by *title* (the A-Coder version, e.g. "1.9.15")
+ * rather than tag, because tags carry the VS Code base version and mean
+ * nothing to a reader. Titles may contain characters that do not belong
+ * in a path, so they are slugged.
+ */
+export const releaseSlug = (version: string) =>
+  version
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9.]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+/** Match a release by its slugged title, falling back to the raw tag. */
+export const findRelease = (releases: Release[], key: string) =>
+  releases.find((r) => releaseSlug(r.version) === key || r.tag === key);

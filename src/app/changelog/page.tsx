@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import {
@@ -9,7 +10,12 @@ import {
   Lead,
   Badge,
 } from "@/components/ui/primitives";
-import { getRepoStats, getReleases, type Release } from "@/lib/github";
+import {
+  getRepoStats,
+  getReleases,
+  releaseSlug,
+  type Release,
+} from "@/lib/github";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -114,18 +120,29 @@ function Entry({ release, first }: { release: Release; first: boolean }) {
       <div>
         <div className="flex items-center gap-2">
           <h2 className="font-display text-[20px] font-light tracking-tight text-steel-50">
-            {release.version}
+            <Link
+              href={`/changelog/${releaseSlug(release.version)}`}
+              className="underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              {release.version}
+            </Link>
           </h2>
           {first && <Badge tone="ember">Latest</Badge>}
         </div>
         <p className="mt-1 font-mono text-[11px] text-white/55">
           {date(release.publishedAt)}
         </p>
+        <Link
+          href={`/changelog/${releaseSlug(release.version)}`}
+          className="mt-2 inline-block font-mono text-[11px] text-white/50 underline-offset-4 transition-colors hover:text-ember-300 hover:underline"
+        >
+          Full notes &amp; downloads →
+        </Link>
         <a
           href={release.url}
           target="_blank"
           rel="noreferrer noopener"
-          className="mt-2 inline-block font-mono text-[11px] text-white/50 underline-offset-4 transition-colors hover:text-white/60 hover:underline"
+          className="mt-1 block font-mono text-[11px] text-white/42 underline-offset-4 transition-colors hover:text-white/60 hover:underline"
         >
           {release.tag} ↗
         </a>
@@ -141,7 +158,7 @@ function Entry({ release, first }: { release: Release; first: boolean }) {
 export default async function ChangelogPage() {
   const [stats, releases] = await Promise.all([
     getRepoStats(),
-    getReleases(15),
+    getReleases(),
   ]);
 
   return (

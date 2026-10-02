@@ -251,18 +251,22 @@ export function Hairline({ className }: { className?: string }) {
 export function Card({
   children,
   className,
+  id,
   interactive = true,
   glow = false,
   glowTone = "ember",
 }: {
   children: ReactNode;
   className?: string;
+  /** Set when the card is an in-page anchor target. */
+  id?: string;
   interactive?: boolean;
   glow?: boolean;
   glowTone?: "ember" | "steel";
 }) {
   return (
     <div
+      id={id}
       className={cx(
         "card",
         interactive && "card-interactive spotlight",
