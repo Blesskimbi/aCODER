@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight, ArrowUpRight, ArrowLeft } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 
 export function cx(...parts: Array<string | false | null | undefined>) {
@@ -251,18 +252,22 @@ export function Hairline({ className }: { className?: string }) {
 export function Card({
   children,
   className,
+  id,
   interactive = true,
   glow = false,
   glowTone = "ember",
 }: {
   children: ReactNode;
   className?: string;
+  /** Set when the card is an in-page anchor target. */
+  id?: string;
   interactive?: boolean;
   glow?: boolean;
   glowTone?: "ember" | "steel";
 }) {
   return (
     <div
+      id={id}
       className={cx(
         "card",
         interactive && "card-interactive spotlight",
@@ -273,5 +278,45 @@ export function Card({
     >
       {children}
     </div>
+  );
+}
+
+/* ── Inline arrows ─────────────────────────────────────────────────
+   Real icons rather than the "→" / "↗" / "←" text glyphs these
+   replace. Text arrows inherit font metrics unevenly across the three
+   families this site loads, and a screen reader may or may not announce
+   them depending on the character; an aria-hidden SVG is silent and
+   sized predictably.
+
+   `Arrow` follows an internal link, `ExtArrow` an external one, and
+   `BackArrow` a breadcrumb. */
+
+export function Arrow({ className }: { className?: string }) {
+  return (
+    <ArrowRight
+      aria-hidden="true"
+      strokeWidth={1.75}
+      className={cx("inline-block h-3.5 w-3.5 shrink-0 align-[-0.1em]", className)}
+    />
+  );
+}
+
+export function ExtArrow({ className }: { className?: string }) {
+  return (
+    <ArrowUpRight
+      aria-hidden="true"
+      strokeWidth={1.75}
+      className={cx("inline-block h-3.5 w-3.5 shrink-0 align-[-0.1em]", className)}
+    />
+  );
+}
+
+export function BackArrow({ className }: { className?: string }) {
+  return (
+    <ArrowLeft
+      aria-hidden="true"
+      strokeWidth={1.75}
+      className={cx("inline-block h-3.5 w-3.5 shrink-0 align-[-0.1em]", className)}
+    />
   );
 }

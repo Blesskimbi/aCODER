@@ -1,15 +1,26 @@
 import Link from "next/link";
-import { GitBranch, Star } from "lucide-react";
-import { SITE, GITHUB_FALLBACK } from "@/lib/site";
+import { Star } from "lucide-react";
+import { GithubIcon, DiscordIcon } from "@/components/ui/BrandIcons";
+import { SocialIcon } from "@/components/ui/SocialIcon";
+import {
+  SITE,
+  GITHUB_FALLBACK,
+  EXTERNAL,
+  repoDoc,
+  liveSocial,
+  UPSTREAM_DISCORD,
+} from "@/lib/site";
 import { LogoMark } from "./LogoMark";
 import { Container } from "@/components/ui/primitives";
 import { FooterWordmark } from "@/components/footer/FooterWordmark";
 
-const g = (p: string) => `${SITE.docsUrl}/${p}`;
+/* Only real destinations.
 
-/* Only real destinations. A "Community" column was specified but the
-   repo has no public community link other than a referral URL on its
-   homepage field, so it is left out rather than filled with guesses. */
+   The Community column is now populated: the forum is the Skool
+   community named in the repo's own `homepage` field. Still deliberately
+   absent — the README's Discord link (a `#` placeholder, not a server)
+   and the issue tracker (`has_issues` is false on the repository, so
+   "Issues" would send people somewhere that cannot receive them). */
 const COLUMNS: Array<{
   title: string;
   links: Array<{ label: string; href: string; external?: boolean }>;
@@ -17,50 +28,57 @@ const COLUMNS: Array<{
   {
     title: "Product",
     links: [
+      { label: "Features", href: "/features" },
+      { label: "Modes", href: "/modes" },
+      { label: "Models", href: "/models" },
+      { label: "Integrations", href: "/integrations" },
+      { label: "For students", href: "/students" },
+      { label: "Command line", href: "/cli" },
+      { label: "Mobile & remote", href: "/mobile" },
+      { label: "Migrate", href: "/migrate" },
       { label: "Download", href: "/download" },
-      { label: "Changelog", href: "/changelog" },
       { label: "Pricing", href: "/pricing" },
-      { label: "Security", href: "/security" },
     ],
   },
   {
     title: "Resources",
     links: [
       { label: "Documentation", href: "/docs" },
-      {
-        label: "Getting started",
-        href: g("user-guide/getting-started.md"),
-        external: true,
-      },
-      {
-        label: "Keyboard shortcuts",
-        href: g("user-guide/keyboard-shortcuts.md"),
-        external: true,
-      },
-      {
-        label: "Providers & models",
-        href: g("user-guide/providers-and-models.md"),
-        external: true,
-      },
+      { label: "Help centre", href: "/help" },
+      { label: "Changelog", href: "/changelog" },
+      { label: "Compare", href: "/compare" },
+      { label: "Blog", href: "/blog" },
+      { label: "Workshops", href: "/workshops" },
+      { label: "Forum", href: EXTERNAL.forum, external: true },
+      { label: "Security", href: "/security" },
     ],
   },
   {
-    title: "Open source",
+    title: "Community",
     links: [
+      { label: "Open source", href: "/open-source" },
+      { label: "Community", href: "/community" },
       { label: "GitHub", href: SITE.repoUrl, external: true },
       { label: "Releases", href: SITE.releasesUrl, external: true },
-      { label: "Issues", href: SITE.issuesUrl, external: true },
-      {
-        label: "Contributing",
-        href: g("HOW_TO_CONTRIBUTE.md"),
-        external: true,
-      },
+      { label: "Contributing", href: repoDoc("HOW_TO_CONTRIBUTE.md"), external: true },
+      { label: "Support the work", href: EXTERNAL.support, external: true },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Brand", href: "/brand" },
+      { label: "Join", href: "/join" },
+      { label: "The A Tech Corporation", href: EXTERNAL.company, external: true },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Licence (Apache-2.0)", href: SITE.licenceUrl, external: true },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: "Licence", href: "/licence" },
       {
         label: "Third-party notices",
         href: `https://github.com/${SITE.repo}/blob/main/ThirdPartyNotices.txt`,
@@ -86,8 +104,10 @@ export function Footer({ stars }: { stars?: number }) {
       </Container>
 
       <Container className="pb-16 pt-12">
-        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
-          <div>
+        {/* Six cells: the brand block plus five link columns. Collapses
+            to two and three across before going single-row on desktop. */}
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.4fr_repeat(5,1fr)]">
+          <div className="sm:col-span-2 md:col-span-3 lg:col-span-1">
             <Link
               href="/"
               className="flex items-center gap-2.5 text-[15px] font-medium text-steel-50"
@@ -107,11 +127,45 @@ export function Footer({ stars }: { stars?: number }) {
               rel="noreferrer noopener"
               className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[12px] text-white/70 transition-colors hover:border-white/20 hover:text-white"
             >
-              <GitBranch className="h-3.5 w-3.5" />
+              <GithubIcon className="h-3.5 w-3.5" />
               <span className="tnum">{starCount}</span>
-              <Star className="h-3 w-3 fill-current" />
+              <Star aria-hidden="true" className="h-3 w-3 fill-current" />
               <span className="text-white/45">on GitHub</span>
             </a>
+
+            {/* Social row. Only accounts that exist are rendered — see
+                SOCIAL in lib/site.ts. Void's Discord is the upstream
+                project's server, so it says so rather than passing as
+                A-Coder's. */}
+            <ul className="mt-5 flex flex-wrap items-center gap-2">
+              {liveSocial().map((s) => (
+                <li key={s.id}>
+                  <a
+                    href={s.url as string}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label={s.label}
+                    title={s.label}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-white/60 transition-colors hover:border-white/22 hover:text-white"
+                  >
+                    <SocialIcon id={s.id} className="h-4 w-4" />
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a
+                  href={UPSTREAM_DISCORD}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="Void Discord — the upstream project"
+                  title="Void Discord — the upstream project, not A-Coder"
+                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 text-white/60 transition-colors hover:border-white/22 hover:text-white"
+                >
+                  <DiscordIcon className="h-4 w-4" />
+                  <span className="text-[11px] text-white/45">upstream</span>
+                </a>
+              </li>
+            </ul>
           </div>
 
           {COLUMNS.map((col) => (

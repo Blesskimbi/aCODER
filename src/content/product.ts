@@ -49,8 +49,16 @@ export const CLOUD_PROVIDERS = [
   "Vertex AI",
   "Azure",
   "AWS Bedrock",
+  "A-Coder (hosted)",
+  "OpenAdapter",
 ] as const;
 
+/**
+ * Runtimes where the endpoint is on your own hardware, so nothing
+ * leaves the machine. Ollama Cloud is deliberately not in this list:
+ * the docs group it with the local providers because it is configured
+ * the same way, but it is a hosted endpoint.
+ */
 export const LOCAL_PROVIDERS = [
   "Ollama",
   "vLLM",
@@ -89,7 +97,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "Which models can I use?",
-    a: "Eleven cloud providers — Anthropic, OpenAI, Google Gemini, xAI Grok, Mistral, Groq, DeepSeek, OpenRouter, Vertex AI, Azure and AWS Bedrock — plus local and self-hosted options via Ollama, vLLM, LM Studio, LiteLLM, llama.cpp and any OpenAI-compatible server. You bring your own key, and you can assign different models to different features.",
+    a: "Eleven third-party cloud providers — Anthropic, OpenAI, Google Gemini, xAI Grok, Mistral, Groq, DeepSeek, OpenRouter, Vertex AI, Azure and AWS Bedrock — plus local and self-hosted options via Ollama, vLLM, LM Studio, LiteLLM, llama.cpp and any OpenAI-compatible server. There are also two hosted aggregators, A-Coder and OpenAdapter, which fetch their model lists for you. You bring your own key, and you can assign different models to different features.",
   },
   {
     q: "How is this different from Void or plain VS Code?",

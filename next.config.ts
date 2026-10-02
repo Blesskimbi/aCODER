@@ -13,6 +13,15 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   images: {
     formats: ["image/avif", "image/webp"],
+    // Contributor avatars on /open-source. Next validates remote src
+    // against this list even when a request is marked unoptimized.
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

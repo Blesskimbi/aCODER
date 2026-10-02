@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
-import {
-  Container,
-  Section,
-  Eyebrow,
-  H2,
-  Lead,
-  Card,
-} from "@/components/ui/primitives";
+import { Container, Section, Eyebrow, H2, Lead, Card, Arrow } from "@/components/ui/primitives";
 import { getRepoStats } from "@/lib/github";
 import { LOCAL_PROVIDERS } from "@/content/product";
 import { SITE } from "@/lib/site";
@@ -93,7 +86,7 @@ export default async function SecurityPage() {
               rel="noreferrer noopener"
               className="mt-3 inline-block text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Open an issue →
+              Open an issue <Arrow />
             </a>
           </div>
 

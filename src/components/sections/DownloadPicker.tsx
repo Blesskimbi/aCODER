@@ -1,7 +1,7 @@
 "use client";
 
 import { Download, ShieldCheck } from "lucide-react";
-import { Card, cx } from "@/components/ui/primitives";
+import { Card, cx, ExtArrow } from "@/components/ui/primitives";
 import {
   assetFormat,
   formatBytes,
@@ -99,7 +99,7 @@ export function DownloadPicker({
                   rel="noreferrer noopener"
                   className="mt-3 font-mono text-[10.5px] text-white/55 underline-offset-4 hover:text-white/65 hover:underline"
                 >
-                  Check all releases ↗
+                  Check all releases <ExtArrow />
                 </a>
               </>
             )}
