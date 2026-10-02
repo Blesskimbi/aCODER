@@ -3,13 +3,7 @@ import Link from "next/link";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { getRepoStats } from "@/lib/github";
-import {
-  Container,
-  Section,
-  Eyebrow,
-  H2,
-  Lead,
-} from "@/components/ui/primitives";
+import { Container, Section, Eyebrow, H2, Lead, BackArrow } from "@/components/ui/primitives";
 
 /**
  * Nav + main + Footer, with the star count fetched once per page.
@@ -57,7 +51,7 @@ export function PageHeader({
             href={breadcrumb.href}
             className="mb-5 inline-flex items-center gap-1.5 font-mono text-[11px] text-white/50 transition-colors hover:text-white/80"
           >
-            <span aria-hidden="true">←</span> {breadcrumb.label}
+            <BackArrow /> {breadcrumb.label}
           </Link>
         )}
         <Eyebrow tone="ember">{eyebrow}</Eyebrow>

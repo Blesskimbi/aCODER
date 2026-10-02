@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, ExtArrow } from "@/components/ui/primitives";
 import { SpecTable, SourceNote, Callout } from "@/components/ui/blocks";
 import { SITE } from "@/lib/site";
 
@@ -132,7 +132,7 @@ export default function BrandPage() {
                 rel="noreferrer noopener"
                 className="mt-5 inline-block text-[13px] text-ember-300 underline-offset-4 hover:underline"
               >
-                Open the PNG ↗
+                Open the PNG <ExtArrow />
               </a>
             </Card>
           </div>

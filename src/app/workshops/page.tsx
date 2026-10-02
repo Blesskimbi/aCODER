@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow } from "@/components/ui/primitives";
 import { EmptyState, CardGrid, LinkCard } from "@/components/ui/blocks";
 import { WORKSHOPS, upcoming, past, selfPaced, type Workshop } from "@/content/workshops";
 import { EXTERNAL } from "@/lib/site";
@@ -36,9 +36,7 @@ function WorkshopRow({ w }: { w: Workshop }) {
         </div>
         <h3 className="mt-3 text-[15px] font-medium text-steel-50">
           {w.title}
-          <span aria-hidden="true" className="ml-1.5 text-white/35">
-            →
-          </span>
+          <Arrow className="ml-1.5 text-white/35" />
         </h3>
         <p className="mt-2 text-[13px] leading-relaxed text-white/58">
           {w.summary}

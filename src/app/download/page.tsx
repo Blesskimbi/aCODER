@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { DownloadPicker } from "@/components/sections/DownloadPicker";
-import { Container, Section, Eyebrow, H2, Lead } from "@/components/ui/primitives";
+import { Container, Section, Eyebrow, H2, Lead, Arrow } from "@/components/ui/primitives";
 import { CopyCommand } from "@/components/site/CopyCommand";
 import {
   getRepoStats,
@@ -75,7 +75,7 @@ export default async function DownloadPage() {
                 rel="noreferrer noopener"
                 className="mt-4 inline-block text-[13px] text-ember-300 underline-offset-4 hover:underline"
               >
-                All releases and checksums on GitHub →
+                All releases and checksums on GitHub <Arrow />
               </a>
             </div>
           </div>

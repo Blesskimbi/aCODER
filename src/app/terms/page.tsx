@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container } from "@/components/ui/primitives";
+import { Container, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SourceNote, Callout, Prose } from "@/components/ui/blocks";
 import { SITE, EXTERNAL } from "@/lib/site";
 
@@ -158,13 +158,13 @@ export default function TermsPage() {
             href="/licence"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            The licence in plain terms →
+            The licence in plain terms <Arrow />
           </Link>
           <Link
             href="/privacy"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Privacy →
+            Privacy <Arrow />
           </Link>
           <a
             href={SITE.licenceUrl}
@@ -172,7 +172,7 @@ export default function TermsPage() {
             rel="noreferrer noopener"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Full licence text ↗
+            Full licence text <ExtArrow />
           </a>
           <a
             href={EXTERNAL.forum}
@@ -180,7 +180,7 @@ export default function TermsPage() {
             rel="noreferrer noopener"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Ask on the forum ↗
+            Ask on the forum <ExtArrow />
           </a>
         </div>
 

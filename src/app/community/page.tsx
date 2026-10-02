@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow } from "@/components/ui/primitives";
 import { SourceNote, Callout, CardGrid, LinkCard } from "@/components/ui/blocks";
 import { SITE, EXTERNAL } from "@/lib/site";
 
@@ -105,7 +105,7 @@ export default function CommunityPage() {
               around its early users far more than a mature one does, and with no
               issue tracker open, a clear report on the forum carries further
               than it would in a queue of thousands.{" "}
-              <Link href="/open-source">Contributing guides →</Link>
+              <Link href="/open-source">Contributing guides <Arrow /></Link>
             </p>
           </Callout>
         </section>

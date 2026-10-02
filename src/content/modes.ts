@@ -11,6 +11,9 @@
  * page, rather than silently picking one.
  */
 
+import type { LucideIcon } from "lucide-react";
+import { MessagesSquare, Telescope, Bot, GraduationCap } from "lucide-react";
+
 export type ModeId = "chat" | "plan" | "agent" | "learn";
 
 export interface ModeDetail {
@@ -18,7 +21,8 @@ export interface ModeDetail {
   name: string;
   /** Label shown in the in-app dropdown, where it differs. */
   appLabel?: string;
-  glyph: string;
+  /** Real icon rather than an emoji — see components/ui for usage. */
+  icon: LucideIcon;
   tagline: string;
   blurb: string;
   useWhen: string;
@@ -33,7 +37,7 @@ export const MODE_DETAILS: ModeDetail[] = [
   {
     id: "chat",
     name: "Chat",
-    glyph: "💬",
+    icon: MessagesSquare,
     tagline: "Conversation only, no tools",
     blurb:
       "The model answers from its own knowledge and whatever context you paste in. It cannot read your files, run tools or edit code — which is exactly the point when you want to think out loud without anything touching the project.",
@@ -48,7 +52,7 @@ export const MODE_DETAILS: ModeDetail[] = [
   {
     id: "plan",
     name: "Plan",
-    glyph: "🔍",
+    icon: Telescope,
     tagline: "Research, plan & document",
     blurb:
       "The model reads your codebase — read-only tools run in parallel — and produces something reviewable: a todo list, a structured implementation plan with steps, complexity and dependencies, or a walkthrough. It cannot change anything while it does.",
@@ -71,7 +75,7 @@ export const MODE_DETAILS: ModeDetail[] = [
     id: "agent",
     name: "Agent",
     appLabel: "Code",
-    glyph: "🤖",
+    icon: Bot,
     tagline: "Edit files & run commands",
     blurb:
       "Full agent autonomy. The model reads, edits, creates and deletes files, runs terminal commands and orchestrates multi-step work. Sensitive actions need your approval unless you have turned that off per category. This is the default mode.",
@@ -101,7 +105,7 @@ export const MODE_DETAILS: ModeDetail[] = [
   {
     id: "learn",
     name: "Learn",
-    glyph: "🎓",
+    icon: GraduationCap,
     tagline: "Your personal tutor",
     blurb:
       "Interactive tutoring at a difficulty level you pick. The model explains code, teaches concepts, generates exercises, checks your answers without giving them away, escalates hints and quizzes you. Every teaching tool is auto-approved — learning never waits on a permission prompt.",
@@ -119,7 +123,7 @@ export const MODE_DETAILS: ModeDetail[] = [
     notes: [
       {
         term: "Levels",
-        def: "🌱 Beginner, 🌿 Intermediate, 🌳 Advanced. Remembered across sessions via `studentLevel`.",
+        def: "Beginner, Intermediate and Advanced. Remembered across sessions via `studentLevel`.",
       },
     ],
   },

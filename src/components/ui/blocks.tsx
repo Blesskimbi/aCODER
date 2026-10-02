@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Card, cx } from "./primitives";
+import { Arrow, ExtArrow } from "@/components/ui/primitives";
 
 /* ── Callout ───────────────────────────────────────────────────────
    Used for the draft notices on the legal pages and for the "not in
@@ -140,7 +141,7 @@ export function LinkCard({
       <h3 className="mt-2 text-[15px] font-medium text-steel-50">
         {title}
         <span aria-hidden="true" className="ml-1.5 text-white/35">
-          {external ? "↗" : "→"}
+          {external ? <ExtArrow /> : <Arrow />}
         </span>
       </h3>
       {blurb && (
@@ -218,14 +219,14 @@ export function EmptyState({
             rel="noreferrer noopener"
             className="mt-1 text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            {action.label} ↗
+            {action.label} <ExtArrow />
           </a>
         ) : (
           <Link
             href={action.href}
             className="mt-1 text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            {action.label} →
+            {action.label} <Arrow />
           </Link>
         ))}
     </div>
@@ -277,7 +278,7 @@ export function SourceNote({
         rel="noreferrer noopener"
         className="text-white/65 underline-offset-4 hover:underline"
       >
-        {label} ↗
+        {label} <ExtArrow />
       </a>
     </p>
   );

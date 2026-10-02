@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Sprout, Leaf, TreeDeciduous } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow } from "@/components/ui/primitives";
 import { SpecTable, SourceNote, Callout, CardGrid } from "@/components/ui/blocks";
 import { guide } from "@/lib/site";
 
@@ -15,17 +16,17 @@ export const metadata: Metadata = {
 
 const LEVELS = [
   {
-    glyph: "🌱",
+    icon: Sprout,
     name: "Beginner",
     body: "New to coding. Simple explanations, no jargon.",
   },
   {
-    glyph: "🌿",
+    icon: Leaf,
     name: "Intermediate",
     body: "Some experience. Technical terms, with definitions.",
   },
   {
-    glyph: "🌳",
+    icon: TreeDeciduous,
     name: "Advanced",
     body: "Experienced. Deep dives and best practices.",
   },
@@ -103,9 +104,11 @@ export default function StudentsPage() {
           <div className="mt-7 grid gap-4 sm:grid-cols-3">
             {LEVELS.map((l) => (
               <Card key={l.name} className="p-6" interactive={false}>
-                <span aria-hidden="true" className="text-[22px] leading-none">
-                  {l.glyph}
-                </span>
+                <l.icon
+                  aria-hidden="true"
+                  className="h-6 w-6 text-ember-300"
+                  strokeWidth={1.5}
+                />
                 <h3 className="mt-3 text-[15px] font-medium text-steel-50">
                   {l.name}
                 </h3>
@@ -259,14 +262,14 @@ export default function StudentsPage() {
             href="/modes/learn"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Learn mode in the modes reference →
+            Learn mode in the modes reference <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/help/learn-mode-basics"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Getting started with it →
+            Getting started with it <Arrow />
           </Link>
         </div>
 

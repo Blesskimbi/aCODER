@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge, ButtonLink } from "@/components/ui/primitives";
+import { Container, Card, Badge, ButtonLink, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SpecTable, SourceNote, Callout, NumberedList } from "@/components/ui/blocks";
 import { getRepoStats, getContributors } from "@/lib/github";
 import { SITE, EXTERNAL, repoDoc } from "@/lib/site";
@@ -134,7 +134,7 @@ export default async function OpenSourcePage() {
               href="/licence"
               className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
             >
-              What the licence lets you do →
+              What the licence lets you do <Arrow />
             </Link>
           </div>
         </section>
@@ -159,7 +159,7 @@ export default async function OpenSourcePage() {
                   rel="noreferrer noopener"
                   className="mt-3 inline-block text-[12.5px] text-ember-300 underline-offset-4 hover:underline"
                 >
-                  Upstream repository ↗
+                  Upstream repository <ExtArrow />
                 </a>
               </Card>
             ))}
@@ -206,7 +206,7 @@ export default async function OpenSourcePage() {
                 rel="noreferrer noopener"
                 className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
               >
-                {label} ↗
+                {label} <ExtArrow />
               </a>
             ))}
           </div>
@@ -286,7 +286,7 @@ export default async function OpenSourcePage() {
               rel="noreferrer noopener"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Community forum ↗
+              Community forum <ExtArrow />
             </a>
             <a
               href={EXTERNAL.support}
@@ -294,13 +294,13 @@ export default async function OpenSourcePage() {
               rel="noreferrer noopener"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Buy Me a Coffee ↗
+              Buy Me a Coffee <ExtArrow />
             </a>
             <Link
               href="/community"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Community page →
+              Community page <Arrow />
             </Link>
           </div>
         </section>

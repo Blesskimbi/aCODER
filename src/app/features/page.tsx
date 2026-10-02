@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SpecTable, SourceNote, Callout } from "@/components/ui/blocks";
 import { FEATURE_GROUPS, APPROVAL_CATEGORIES } from "@/content/features";
 import { guide } from "@/lib/site";
@@ -71,7 +71,7 @@ export default function FeaturesPage() {
                 rel="noreferrer noopener"
                 className="mt-5 inline-block text-[12.5px] text-white/50 underline-offset-4 transition-colors hover:text-ember-300 hover:underline"
               >
-                {group.guide} ↗
+                {group.guide} <ExtArrow />
               </a>
             </section>
           ))}
@@ -119,14 +119,14 @@ export default function FeaturesPage() {
             href="/modes"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            How the four modes differ →
+            How the four modes differ <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/integrations"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Extending it with MCP, ACP and Skills →
+            Extending it with MCP, ACP and Skills <Arrow />
           </Link>
         </div>
 

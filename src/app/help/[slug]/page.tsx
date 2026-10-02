@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow } from "@/components/ui/primitives";
 import { SourceNote, Callout, Prose } from "@/components/ui/blocks";
 import { HELP_ARTICLES, getArticle } from "@/content/help";
 import { guide } from "@/lib/site";
@@ -92,9 +92,7 @@ export default async function HelpArticlePage({
                     <Badge>{r.category}</Badge>
                     <h3 className="mt-3 text-[14px] font-medium text-steel-50">
                       {r.title}
-                      <span aria-hidden="true" className="ml-1 text-white/35">
-                        →
-                      </span>
+                      <Arrow className="ml-1 text-white/35" />
                     </h3>
                     <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/55">
                       {r.summary}

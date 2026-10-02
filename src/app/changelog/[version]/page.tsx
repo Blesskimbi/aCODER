@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge, ButtonLink } from "@/components/ui/primitives";
+import { Container, Card, Badge, ButtonLink, Arrow, ExtArrow, BackArrow } from "@/components/ui/primitives";
 import { SourceNote } from "@/components/ui/blocks";
 import {
   getReleases,
@@ -166,7 +166,7 @@ export default async function ReleasePage({
             rel="noreferrer noopener"
             className="text-[12.5px] text-white/55 underline-offset-4 hover:text-ember-300 hover:underline"
           >
-            On GitHub ↗
+            On GitHub <ExtArrow />
           </a>
         </div>
       </PageHeader>
@@ -230,7 +230,7 @@ export default async function ReleasePage({
                     Newer
                   </p>
                   <p className="mt-2 text-[14px] font-medium text-steel-50">
-                    {newer.version} →
+                    {newer.version} <Arrow />
                   </p>
                 </Card>
               </Link>
@@ -242,7 +242,7 @@ export default async function ReleasePage({
                     Older
                   </p>
                   <p className="mt-2 text-[14px] font-medium text-steel-50">
-                    ← {older.version}
+                    <BackArrow /> {older.version}
                   </p>
                 </Card>
               </Link>

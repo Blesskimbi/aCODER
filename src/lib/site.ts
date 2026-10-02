@@ -86,6 +86,68 @@ export interface NavItem {
   external?: boolean;
 }
 
+/**
+ * Social and community accounts.
+ *
+ * `url: null` means the account does not exist yet, and the UI renders
+ * nothing for it — a social row must never link somewhere that 404s or,
+ * worse, lands on an unrelated account that happens to hold the handle.
+ * Fill a URL in and it appears in the nav menu and the footer at once.
+ *
+ * Verified before writing this: the repo has no X, Reddit or YouTube
+ * presence anywhere. The one Discord invite in the repository
+ * (docs/HOW_TO_CONTRIBUTE.md) resolves to the **Void** server — the
+ * upstream project A-Coder forks — not to an A-Coder server, so it is
+ * listed separately as an upstream link rather than as "our Discord".
+ */
+export type SocialId = "skool" | "github" | "discord" | "reddit" | "x" | "youtube";
+
+export interface Social {
+  id: SocialId;
+  label: string;
+  url: string | null;
+  /** Shown in the nav menu under the label. */
+  blurb?: string;
+}
+
+export const SOCIAL: Social[] = [
+  {
+    id: "skool",
+    label: "Skool community",
+    url: EXTERNAL.forum,
+    blurb: "The project's own forum",
+  },
+  {
+    id: "github",
+    label: "GitHub",
+    url: SITE.repoUrl,
+    blurb: "Read the source, open a PR",
+  },
+  { id: "discord", label: "Discord", url: null, blurb: "Not opened yet" },
+  { id: "reddit", label: "Reddit", url: null, blurb: "Not created yet" },
+  { id: "x", label: "X", url: null, blurb: "No account yet" },
+  { id: "youtube", label: "YouTube", url: null, blurb: "No channel yet" },
+];
+
+/** Only the accounts that actually exist. */
+export const liveSocial = () => SOCIAL.filter((s) => s.url !== null);
+
+/**
+ * Void's Discord. Real and active, but it is the upstream project's
+ * server, so it is always labelled as such and never as A-Coder's.
+ */
+export const UPSTREAM_DISCORD =
+  "https://discord.gg/RSNjgaugJs";
+
+/**
+ * Sign-up destination.
+ *
+ * A-Coder has no accounts — it is a desktop app with no A-Coder server
+ * to hold one. The only real sign-up the project operates is joining the
+ * community, so that is where this points.
+ */
+export const SIGNUP_URL = EXTERNAL.forum;
+
 export const NAV_GROUPS: Array<{ title: string; items: NavItem[] }> = [
   {
     title: "Product",
@@ -103,19 +165,19 @@ export const NAV_GROUPS: Array<{ title: string; items: NavItem[] }> = [
   {
     title: "Resources",
     items: [
-      { label: "Documentation", href: "/docs", blurb: "The full user guide" },
       { label: "Help centre", href: "/help", blurb: "Task-shaped answers" },
-      { label: "Changelog", href: "/changelog", blurb: "Every release" },
       { label: "Compare", href: "/compare", blurb: "Against the alternatives" },
-      { label: "Blog", href: "/blog", blurb: "Notes from the project" },
       { label: "Workshops", href: "/workshops", blurb: "Guided sessions" },
-      { label: "Forum", href: EXTERNAL.forum, blurb: "Community discussion", external: true },
+      { label: "Pricing", href: "/pricing", blurb: "Free, and why" },
+      { label: "Open source", href: "/open-source", blurb: "Licence, stack, contributing" },
+      { label: "Security", href: "/security", blurb: "Where your code goes" },
     ],
   },
 ];
 
 /** Direct nav links, shown after the grouped menus. */
 export const NAV_LINKS = [
-  { label: "Pricing", href: "/pricing" },
-  { label: "Open source", href: "/open-source" },
+  { label: "Docs", href: "/docs" },
+  { label: "Blog", href: "/blog" },
+  { label: "Changelog", href: "/changelog" },
 ] as const;

@@ -2,14 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
-import {
-  Container,
-  Section,
-  Eyebrow,
-  H2,
-  Lead,
-  Badge,
-} from "@/components/ui/primitives";
+import { Container, Section, Eyebrow, H2, Lead, Badge, Arrow, ExtArrow } from "@/components/ui/primitives";
 import {
   getRepoStats,
   getReleases,
@@ -136,7 +129,7 @@ function Entry({ release, first }: { release: Release; first: boolean }) {
           href={`/changelog/${releaseSlug(release.version)}`}
           className="mt-2 inline-block font-mono text-[11px] text-white/50 underline-offset-4 transition-colors hover:text-ember-300 hover:underline"
         >
-          Full notes &amp; downloads →
+          Full notes &amp; downloads <Arrow />
         </Link>
         <a
           href={release.url}
@@ -144,7 +137,7 @@ function Entry({ release, first }: { release: Release; first: boolean }) {
           rel="noreferrer noopener"
           className="mt-1 block font-mono text-[11px] text-white/42 underline-offset-4 transition-colors hover:text-white/60 hover:underline"
         >
-          {release.tag} ↗
+          {release.tag} <ExtArrow />
         </a>
       </div>
 
@@ -194,7 +187,7 @@ export default async function ChangelogPage() {
                 rel="noreferrer noopener"
                 className="mt-2 inline-block text-[13px] text-ember-300 underline-offset-4 hover:underline"
               >
-                View releases on GitHub →
+                View releases on GitHub <Arrow />
               </a>
             </div>
           )}

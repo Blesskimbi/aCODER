@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SourceNote, CardGrid, LinkCard } from "@/components/ui/blocks";
 import { HELP_ARTICLES, HELP_CATEGORIES } from "@/content/help";
 import { SITE, EXTERNAL } from "@/lib/site";
@@ -43,12 +43,7 @@ export default function HelpPage() {
                       >
                         <span className="text-[14px] font-medium text-steel-100 transition-colors group-hover:text-white sm:w-[42%] sm:shrink-0">
                           {a.title}
-                          <span
-                            aria-hidden="true"
-                            className="ml-1.5 text-white/30"
-                          >
-                            →
-                          </span>
+                          <Arrow className="ml-1.5 text-white/30" />
                         </span>
                         <span className="text-[13px] leading-relaxed text-white/55">
                           {a.summary}
@@ -114,7 +109,7 @@ export default function HelpPage() {
               rel="noreferrer noopener"
               className="mt-3 inline-block text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Repository wiki ↗
+              Repository wiki <ExtArrow />
             </a>
           </Card>
         </section>

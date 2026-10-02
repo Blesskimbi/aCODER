@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SpecTable, SourceNote, Callout } from "@/components/ui/blocks";
 import { CLOUD, LOCAL, FEATURE_SLOTS, OVERRIDES } from "@/content/models";
 import { guide } from "@/lib/site";
@@ -27,7 +27,7 @@ function ProviderTable({ rows }: { rows: typeof CLOUD }) {
               rel="noreferrer noopener"
               className="text-steel-100 underline-offset-4 hover:text-ember-300 hover:underline"
             >
-              {p.name} ↗
+              {p.name} <ExtArrow />
             </a>
           ) : (
             p.name
@@ -182,14 +182,14 @@ export default function ModelsPage() {
             href="/help/connect-a-model"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Connect your first provider →
+            Connect your first provider <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/privacy"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Where requests actually go →
+            Where requests actually go <Arrow />
           </Link>
         </div>
 

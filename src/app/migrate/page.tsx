@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow } from "@/components/ui/primitives";
 import { SpecTable, SourceNote, Callout, NumberedList } from "@/components/ui/blocks";
 import { guide } from "@/lib/site";
 
@@ -166,14 +166,14 @@ export default function MigratePage() {
             href="/download"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Download A-Coder →
+            Download A-Coder <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/help/keyboard-shortcuts"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            The shortcuts worth learning first →
+            The shortcuts worth learning first <Arrow />
           </Link>
         </div>
 

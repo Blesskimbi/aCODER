@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container } from "@/components/ui/primitives";
+import { Container, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SourceNote, Callout, Prose } from "@/components/ui/blocks";
 import { SITE, EXTERNAL, guide } from "@/lib/site";
 
@@ -198,19 +198,19 @@ export default function PrivacyPage() {
             href="/security"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Security architecture →
+            Security architecture <Arrow />
           </Link>
           <Link
             href="/terms"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Terms →
+            Terms <Arrow />
           </Link>
           <Link
             href="/licence"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Licence →
+            Licence <Arrow />
           </Link>
           <a
             href={EXTERNAL.forum}
@@ -218,7 +218,7 @@ export default function PrivacyPage() {
             rel="noreferrer noopener"
             className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Ask on the forum ↗
+            Ask on the forum <ExtArrow />
           </a>
         </div>
 

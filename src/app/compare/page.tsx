@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Check, Minus } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Badge, cx } from "@/components/ui/primitives";
+import { Container, Badge, cx, Arrow } from "@/components/ui/primitives";
 import { SourceNote, Callout } from "@/components/ui/blocks";
 import { COMPARE_COLUMNS, COMPARE_GROUPS, type Cell } from "@/content/compare";
 
@@ -158,14 +158,14 @@ export default function ComparePage() {
             href="/migrate"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Switching from one of them →
+            Switching from one of them <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/open-source"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Read the source yourself →
+            Read the source yourself <Arrow />
           </Link>
         </div>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow } from "@/components/ui/primitives";
 import { SourceNote, Callout } from "@/components/ui/blocks";
 import { MODE_DETAILS, MODE_COMMON } from "@/content/modes";
 import { guide } from "@/lib/site";
@@ -29,17 +29,17 @@ export default function ModesPage() {
             <Link key={m.id} href={`/modes/${m.id}`} className="block">
               <Card className="h-full p-7">
                 <div className="flex items-start justify-between gap-3">
-                  <span aria-hidden="true" className="text-[22px] leading-none">
-                    {m.glyph}
-                  </span>
+                  <m.icon
+                    aria-hidden="true"
+                    className="h-6 w-6 text-ember-300"
+                    strokeWidth={1.5}
+                  />
                   {m.id === "agent" && <Badge tone="ember">Default</Badge>}
                 </div>
 
                 <h2 className="mt-4 text-[17px] font-medium text-steel-50">
                   {m.name}
-                  <span aria-hidden="true" className="ml-1.5 text-white/35">
-                    →
-                  </span>
+                  <Arrow className="ml-1.5 text-white/35" />
                 </h2>
                 <p className="mt-1 font-mono text-[11px] text-white/50">
                   {m.tagline}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { BackToTop } from "@/components/site/BackToTop";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -54,7 +55,13 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-canvas antialiased">{children}</body>
+      <body className="bg-canvas antialiased">
+        {children}
+        {/* Here rather than in PageShell, so the pages that build their
+            own frame (home, docs, download, pricing, security) get it
+            too. */}
+        <BackToTop />
+      </body>
     </html>
   );
 }

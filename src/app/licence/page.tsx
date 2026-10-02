@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge, ButtonLink } from "@/components/ui/primitives";
+import { Container, Card, Badge, ButtonLink, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SpecTable, SourceNote, Callout } from "@/components/ui/blocks";
 import { SITE } from "@/lib/site";
 
@@ -153,7 +153,7 @@ export default function LicencePage() {
                   rel="noreferrer noopener"
                   className="font-mono text-[12px] text-steel-100 underline-offset-4 hover:text-ember-300 hover:underline"
                 >
-                  {file} ↗
+                  {file} <ExtArrow />
                 </a>,
                 <Badge key="l">{lic}</Badge>,
                 covers,
@@ -202,19 +202,19 @@ export default function LicencePage() {
               href="/brand"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Naming and logo rules →
+              Naming and logo rules <Arrow />
             </Link>
             <Link
               href="/open-source"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Building from source →
+              Building from source <Arrow />
             </Link>
             <Link
               href="/terms"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Terms of use →
+              Terms of use <Arrow />
             </Link>
           </div>
         </section>

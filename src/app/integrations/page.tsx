@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SourceNote, Callout } from "@/components/ui/blocks";
 import { INTEGRATIONS } from "@/content/integrations";
 import { guide } from "@/lib/site";
@@ -90,7 +90,7 @@ export default function IntegrationsPage() {
                   rel="noreferrer noopener"
                   className="text-[12.5px] text-white/50 underline-offset-4 transition-colors hover:text-ember-300 hover:underline"
                 >
-                  {i.guide} ↗
+                  {i.guide} <ExtArrow />
                 </a>
                 {i.href && (
                   <a
@@ -99,7 +99,7 @@ export default function IntegrationsPage() {
                     rel="noreferrer noopener"
                     className="text-[12.5px] text-white/50 underline-offset-4 transition-colors hover:text-ember-300 hover:underline"
                   >
-                    Upstream project ↗
+                    Upstream project <ExtArrow />
                   </a>
                 )}
                 {i.id === "mobile" && (
@@ -107,7 +107,7 @@ export default function IntegrationsPage() {
                     href="/mobile"
                     className="text-[12.5px] text-ember-300 underline-offset-4 hover:underline"
                   >
-                    Full API reference →
+                    Full API reference <Arrow />
                   </Link>
                 )}
               </div>

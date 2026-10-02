@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { EmptyState, SourceNote, Callout, CardGrid, LinkCard } from "@/components/ui/blocks";
 import { SITE, EXTERNAL, repoDoc } from "@/lib/site";
 
@@ -108,7 +108,7 @@ export default function JoinPage() {
               rel="noreferrer noopener"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Contributing guide ↗
+              Contributing guide <ExtArrow />
             </a>
             <a
               href={repoDoc("DEVELOPMENT_GUIDE.md")}
@@ -116,7 +116,7 @@ export default function JoinPage() {
               rel="noreferrer noopener"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Development guide ↗
+              Development guide <ExtArrow />
             </a>
             <a
               href={repoDoc("VOID_CODEBASE_GUIDE.md")}
@@ -124,7 +124,7 @@ export default function JoinPage() {
               rel="noreferrer noopener"
               className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
             >
-              Codebase guide ↗
+              Codebase guide <ExtArrow />
             </a>
           </div>
         </section>
@@ -202,14 +202,14 @@ export default function JoinPage() {
             href="/about"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Why the project exists →
+            Why the project exists <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/open-source"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Build it from source →
+            Build it from source <Arrow />
           </Link>
         </div>
 

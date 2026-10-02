@@ -1,6 +1,15 @@
 import Link from "next/link";
-import { GitBranch, Star } from "lucide-react";
-import { SITE, GITHUB_FALLBACK, EXTERNAL, repoDoc } from "@/lib/site";
+import { Star } from "lucide-react";
+import { GithubIcon, DiscordIcon } from "@/components/ui/BrandIcons";
+import { SocialIcon } from "@/components/ui/SocialIcon";
+import {
+  SITE,
+  GITHUB_FALLBACK,
+  EXTERNAL,
+  repoDoc,
+  liveSocial,
+  UPSTREAM_DISCORD,
+} from "@/lib/site";
 import { LogoMark } from "./LogoMark";
 import { Container } from "@/components/ui/primitives";
 import { FooterWordmark } from "@/components/footer/FooterWordmark";
@@ -118,11 +127,45 @@ export function Footer({ stars }: { stars?: number }) {
               rel="noreferrer noopener"
               className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[12px] text-white/70 transition-colors hover:border-white/20 hover:text-white"
             >
-              <GitBranch className="h-3.5 w-3.5" />
+              <GithubIcon className="h-3.5 w-3.5" />
               <span className="tnum">{starCount}</span>
-              <Star className="h-3 w-3 fill-current" />
+              <Star aria-hidden="true" className="h-3 w-3 fill-current" />
               <span className="text-white/45">on GitHub</span>
             </a>
+
+            {/* Social row. Only accounts that exist are rendered — see
+                SOCIAL in lib/site.ts. Void's Discord is the upstream
+                project's server, so it says so rather than passing as
+                A-Coder's. */}
+            <ul className="mt-5 flex flex-wrap items-center gap-2">
+              {liveSocial().map((s) => (
+                <li key={s.id}>
+                  <a
+                    href={s.url as string}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label={s.label}
+                    title={s.label}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-white/60 transition-colors hover:border-white/22 hover:text-white"
+                  >
+                    <SocialIcon id={s.id} className="h-4 w-4" />
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a
+                  href={UPSTREAM_DISCORD}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="Void Discord — the upstream project"
+                  title="Void Discord — the upstream project, not A-Coder"
+                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 text-white/60 transition-colors hover:border-white/22 hover:text-white"
+                >
+                  <DiscordIcon className="h-4 w-4" />
+                  <span className="text-[11px] text-white/45">upstream</span>
+                </a>
+              </li>
+            </ul>
           </div>
 
           {COLUMNS.map((col) => (

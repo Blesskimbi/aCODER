@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Check, X } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow } from "@/components/ui/primitives";
 import { SourceNote, Callout } from "@/components/ui/blocks";
 import { MODE_DETAILS, getMode } from "@/content/modes";
 import { guide } from "@/lib/site";
@@ -43,12 +43,19 @@ export default async function ModePage({
   return (
     <PageShell>
       <PageHeader
-        eyebrow={`${m.glyph} ${m.name} mode`}
+        eyebrow={`${m.name} mode`}
         title={m.tagline}
         lead={m.blurb}
         breadcrumb={{ label: "All modes", href: "/modes" }}
       >
         <div className="mt-6 flex flex-wrap items-center gap-2">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04]">
+            <m.icon
+              aria-hidden="true"
+              className="h-4 w-4 text-ember-300"
+              strokeWidth={1.5}
+            />
+          </span>
           {m.id === "agent" && <Badge tone="ember">Default mode</Badge>}
           {m.appLabel && <Badge>Labelled “{m.appLabel}” in the app</Badge>}
         </div>
@@ -140,14 +147,14 @@ export default async function ModePage({
             {others.map((o) => (
               <Link key={o.id} href={`/modes/${o.id}`} className="block">
                 <Card className="h-full p-5">
-                  <span aria-hidden="true" className="text-[18px] leading-none">
-                    {o.glyph}
-                  </span>
+                  <o.icon
+                    aria-hidden="true"
+                    className="h-5 w-5 text-white/55"
+                    strokeWidth={1.5}
+                  />
                   <h3 className="mt-3 text-[14px] font-medium text-steel-50">
                     {o.name}
-                    <span aria-hidden="true" className="ml-1 text-white/35">
-                      →
-                    </span>
+                    <Arrow className="ml-1 text-white/35" />
                   </h3>
                   <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/55">
                     {o.tagline}

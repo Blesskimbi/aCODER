@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { Container, Card, Badge } from "@/components/ui/primitives";
+import { Container, Card, Badge, Arrow, ExtArrow } from "@/components/ui/primitives";
 import { SourceNote, Callout, NumberedList } from "@/components/ui/blocks";
 import { SITE, EXTERNAL } from "@/lib/site";
 
@@ -122,7 +122,7 @@ export default function AboutPage() {
                 href="/open-source"
                 className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
               >
-                Contributors →
+                Contributors <Arrow />
               </Link>
               <a
                 href={EXTERNAL.company}
@@ -130,7 +130,7 @@ export default function AboutPage() {
                 rel="noreferrer noopener"
                 className="text-[13px] text-ember-300 underline-offset-4 hover:underline"
               >
-                theatechcorporation.com ↗
+                theatechcorporation.com <ExtArrow />
               </a>
             </div>
           </Card>
@@ -155,21 +155,21 @@ export default function AboutPage() {
             href="/open-source"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Read the source →
+            Read the source <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/community"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Find the community →
+            Find the community <Arrow />
           </Link>
           <span className="text-white/25">·</span>
           <Link
             href="/join"
             className="text-[13.5px] text-ember-300 underline-offset-4 hover:underline"
           >
-            Working on it →
+            Working on it <Arrow />
           </Link>
         </div>
 
