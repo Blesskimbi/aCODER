@@ -16,20 +16,24 @@ import { Hairline } from "@/components/ui/primitives";
 import {
   getRepoStats,
   getLatestRelease,
+  getReleases,
   getContributors,
+  mapPlatforms,
 } from "@/lib/github";
 import { GITHUB_FALLBACK } from "@/lib/site";
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const [stats, release, contributors] = await Promise.all([
+  const [stats, release, recentReleases, contributors] = await Promise.all([
     getRepoStats(),
     getLatestRelease(),
+    getReleases(3),
     getContributors(),
   ]);
 
   const version = release?.version ?? GITHUB_FALLBACK.latestVersion;
+  const platforms = mapPlatforms(release, recentReleases);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -56,7 +60,7 @@ export default async function HomePage() {
       />
       <Nav stars={stats.stars} />
       <main id="main">
-        <Hero stars={stats.stars} version={version} />
+        <Hero stars={stats.stars} version={version} platforms={platforms} />
         <ProviderMarquee />
         <Modes />
         <Hairline />

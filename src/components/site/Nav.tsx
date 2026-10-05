@@ -17,6 +17,14 @@ import { LogoMark } from "./LogoMark";
 import { GithubIcon, DiscordIcon } from "@/components/ui/BrandIcons";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { cx } from "@/components/ui/primitives";
+import { useDetectedSystem } from "@/lib/useOs";
+import {
+  getFallbackPlatforms,
+  getPlatformForOs,
+  assetFormat,
+  type PlatformDownload,
+} from "@/lib/github";
+import { DownloadFeedbackModal } from "./DownloadFeedbackModal";
 
 /**
  * Community menu items.
@@ -62,6 +70,16 @@ export function Nav({ stars }: { stars: number }) {
     { title: "Community", items: communityItems() },
   ];
 
+  const detected = useDetectedSystem();
+  const [modalPlatform, setModalPlatform] = useState<PlatformDownload | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const platforms = getFallbackPlatforms();
+  const targetPlatform = getPlatformForOs(
+    platforms,
+    detected?.os ?? "windows",
+    detected?.arch ?? "x64",
+  );
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -105,6 +123,12 @@ export function Nav({ stars }: { stars: number }) {
           : "border-b border-transparent",
       )}
     >
+      <DownloadFeedbackModal
+        platform={modalPlatform}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        version="1.9.15"
+      />
       <div
         ref={navRef}
         className="mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between px-4 sm:px-6"
@@ -144,16 +168,16 @@ export function Nav({ stars }: { stars: number }) {
                 </button>
 
                 {isOpen && (
-                  <div className="absolute left-1/2 top-full w-[320px] -translate-x-1/2 pt-3">
-                    <div className="overflow-hidden rounded-2xl border border-white/[0.09] bg-panel/95 p-2 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+                  <div className="absolute left-1/2 top-full w-[340px] -translate-x-1/2 pt-3 z-50">
+                    <div className="glass-menu overflow-hidden rounded-2xl p-2.5">
                       {group.items.map((item) => {
                         const body = (
                           <>
-                            <span className="flex items-center gap-2 text-[13px] text-steel-100">
+                            <span className="flex items-center gap-2 text-[13.5px] font-medium text-white/95">
                               {item.social && (
                                 <SocialIcon
                                   id={item.social}
-                                  className="h-3.5 w-3.5 shrink-0 text-white/55"
+                                  className="h-3.5 w-3.5 shrink-0 text-white/60"
                                 />
                               )}
                               {item.label}
@@ -161,7 +185,7 @@ export function Nav({ stars }: { stars: number }) {
                             {item.blurb && (
                               <span
                                 className={cx(
-                                  "mt-0.5 block text-[11.5px] leading-snug text-white/45",
+                                  "mt-0.5 block text-[11.5px] leading-snug text-white/55",
                                   item.social && "pl-[22px]",
                                 )}
                               >
@@ -178,7 +202,7 @@ export function Nav({ stars }: { stars: number }) {
                             target="_blank"
                             rel="noreferrer noopener"
                             onClick={() => setMenu(null)}
-                            className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-white/[0.05]"
+                            className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-white/[0.08]"
                           >
                             {body}
                           </a>
@@ -187,7 +211,7 @@ export function Nav({ stars }: { stars: number }) {
                             key={item.href}
                             href={item.href}
                             onClick={() => setMenu(null)}
-                            className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-white/[0.05]"
+                            className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-white/[0.08]"
                           >
                             {body}
                           </Link>
@@ -233,13 +257,25 @@ export function Nav({ stars }: { stars: number }) {
             Sign up
           </a>
 
-          <Link
-            href="/download"
-            className="inline-flex h-9 items-center gap-2 rounded-lg bg-gradient-to-b from-steel-50 to-steel-200 px-3.5 text-[13px] font-medium text-canvas transition-all duration-200 hover:-translate-y-px hover:to-steel-100"
+          <a
+            href={targetPlatform?.asset?.url || "/api/download"}
+            download={targetPlatform?.asset?.name}
+            onClick={() => {
+              if (targetPlatform?.asset) {
+                setModalPlatform(targetPlatform);
+                setIsModalOpen(true);
+              }
+            }}
+            className="inline-flex h-9 items-center gap-2 rounded-lg bg-gradient-to-b from-steel-50 to-steel-200 px-3.5 text-[13px] font-medium text-canvas transition-all duration-200 hover:-translate-y-px hover:to-steel-100 shadow-sm"
           >
             <Download aria-hidden="true" className="h-3.5 w-3.5" />
-            Download
-          </Link>
+            <span>Download</span>
+            {targetPlatform?.asset && (
+              <span className="hidden xl:inline font-mono text-[10.5px] opacity-75">
+                .{assetFormat(targetPlatform.asset.name)}
+              </span>
+            )}
+          </a>
 
           <button
             onClick={() => setOpen((v) => !v)}
@@ -334,10 +370,26 @@ export function Nav({ stars }: { stars: number }) {
             </div>
 
             <a
+              href={targetPlatform?.asset?.url || "/api/download"}
+              download={targetPlatform?.asset?.name}
+              onClick={() => {
+                setOpen(false);
+                if (targetPlatform?.asset) {
+                  setModalPlatform(targetPlatform);
+                  setIsModalOpen(true);
+                }
+              }}
+              className="mt-4 inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-steel-50 to-steel-200 text-[14px] font-medium text-canvas shadow-sm"
+            >
+              <Download className="h-4 w-4" />
+              <span>Download for {detected ? detected.label : "Your Platform"}</span>
+            </a>
+
+            <a
               href={SIGNUP_URL}
               target="_blank"
               rel="noreferrer noopener"
-              className="mt-4 inline-flex h-10 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] text-[14px] font-medium text-white/90"
+              className="mt-2.5 inline-flex h-10 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] text-[14px] font-medium text-white/90"
             >
               Sign up
             </a>

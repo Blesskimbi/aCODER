@@ -200,15 +200,45 @@ export interface PlatformDownload {
   alternates: ReleaseAsset[];
 }
 
+export const FALLBACK_PLATFORM_ASSETS: Record<
+  PlatformId,
+  { name: string; url: string; size: number }
+> = {
+  "mac-arm": {
+    name: "A-Coder.arm64.1.99.30100.dmg",
+    url: "https://github.com/hamishfromatech/A-Coder/releases/download/1.99.30100/A-Coder.arm64.1.99.30100.dmg",
+    size: 605282580,
+  },
+  "mac-intel": {
+    name: "A-Coder.x64.1.99.30100.dmg",
+    url: "https://github.com/hamishfromatech/A-Coder/releases/download/1.99.30100/A-Coder.x64.1.99.30100.dmg",
+    size: 606132938,
+  },
+  "win-x64": {
+    name: "A-CoderUserSetup-x64-1.99.30098.exe",
+    url: "https://github.com/hamishfromatech/A-Coder/releases/download/1.99.30098/A-CoderUserSetup-x64-1.99.30098.exe",
+    size: 140924768,
+  },
+  "win-arm": {
+    name: "A-CoderUserSetup-arm64-1.99.30100.exe",
+    url: "https://github.com/hamishfromatech/A-Coder/releases/download/1.99.30100/A-CoderUserSetup-arm64-1.99.30100.exe",
+    size: 141381392,
+  },
+  "linux-x64": {
+    name: "a-coder_1.99.30100_amd64.deb",
+    url: "https://github.com/hamishfromatech/A-Coder/releases/download/1.99.30100/a-coder_1.99.30100_amd64.deb",
+    size: 122295604,
+  },
+  "linux-arm": {
+    name: "a-coder_1.99.30100_arm64.deb",
+    url: "https://github.com/hamishfromatech/A-Coder/releases/download/1.99.30100/a-coder_1.99.30100_arm64.deb",
+    size: 120536768,
+  },
+};
+
 /**
  * Matchers are ordered by preference — the first hit becomes the main
  * download and the rest are offered as alternates.
- *
- * Verified against the live release rather than assumed: macOS ships
- * .dmg *and* .zip, Linux ships .deb, .AppImage and .tar.gz, and
- * Windows currently publishes arm64 only. "reh" artefacts are remote
- * extension-host server builds, not the desktop app, so they are
- * excluded entirely.
  */
 const MATCHERS: Array<{
   id: PlatformId;
@@ -232,13 +262,21 @@ const MATCHERS: Array<{
     id: "win-x64",
     os: "windows",
     label: "Windows · x64",
-    tests: [/^A-CoderSetup-x64-.*\.exe$/i, /^A-Coder-win32-x64-.*\.zip$/i],
+    tests: [
+      /^A-CoderUserSetup-x64-.*\.exe$/i,
+      /^A-CoderSetup-x64-.*\.exe$/i,
+      /^A-Coder-win32-x64-.*\.zip$/i,
+    ],
   },
   {
     id: "win-arm",
     os: "windows",
     label: "Windows · ARM64",
-    tests: [/^A-CoderSetup-arm64-.*\.exe$/i, /^A-Coder-win32-arm64-.*\.zip$/i],
+    tests: [
+      /^A-CoderUserSetup-arm64-.*\.exe$/i,
+      /^A-CoderSetup-arm64-.*\.exe$/i,
+      /^A-Coder-win32-arm64-.*\.zip$/i,
+    ],
   },
   {
     id: "linux-x64",
@@ -260,25 +298,104 @@ const MATCHERS: Array<{
 
 const isRemoteHost = (name: string) => /(^|[-_])reh([-_]|$)/i.test(name);
 
-export function mapPlatforms(release: Release | null): PlatformDownload[] {
-  const assets = (release?.assets ?? []).filter(
-    (a) =>
-      !isRemoteHost(a.name) &&
-      !/\.(sha1|sha256|zsync)$/i.test(a.name),
+export function mapPlatforms(
+  release: Release | null,
+  fallbackReleases: Release[] = [],
+): PlatformDownload[] {
+  // Aggregate assets from primary release + fallback recent releases
+  const allReleases = [release, ...fallbackReleases].filter(
+    (r): r is Release => Boolean(r),
   );
 
+  const cleanAssets = (r: Release) =>
+    (r.assets ?? []).filter(
+      (a) => !isRemoteHost(a.name) && !/\.(sha1|sha256|zsync)$/i.test(a.name),
+    );
+
+  const primaryAssets = release ? cleanAssets(release) : [];
+
   return MATCHERS.map(({ id, os, label, tests }) => {
-    const matched = tests
-      .map((t) => assets.find((a) => t.test(a.name)))
+    // 1. Try matching against the primary latest release
+    let matched = tests
+      .map((t) => primaryAssets.find((a) => t.test(a.name)))
       .filter((a): a is ReleaseAsset => Boolean(a));
 
-    const [asset = null, ...alternates] = matched;
-    const checksum = asset
-      ? (release?.assets.find((a) => a.name === `${asset.name}.sha256`) ?? null)
-      : null;
+    // 2. If not found in primary release, search fallback recent releases
+    if (matched.length === 0 && allReleases.length > 1) {
+      for (const rel of allReleases.slice(1)) {
+        const relAssets = cleanAssets(rel);
+        const hit = tests
+          .map((t) => relAssets.find((a) => t.test(a.name)))
+          .filter((a): a is ReleaseAsset => Boolean(a));
+        if (hit.length > 0) {
+          matched = hit;
+          break;
+        }
+      }
+    }
+
+    let [asset = null, ...alternates] = matched;
+
+    // 3. Guaranteed fallback: if still null, use verified direct asset URL
+    if (!asset) {
+      const fallback = FALLBACK_PLATFORM_ASSETS[id];
+      asset = {
+        name: fallback.name,
+        url: fallback.url,
+        size: fallback.size,
+      };
+    }
+
+    const checksum =
+      release?.assets?.find((a) => a.name === `${asset?.name}.sha256`) ??
+      allReleases
+        .flatMap((r) => r.assets ?? [])
+        .find((a) => a.name === `${asset?.name}.sha256`) ??
+      null;
 
     return { id, os, label, asset, checksum, alternates };
   });
+}
+
+/** Get guaranteed platform download for an OS. */
+export function getPlatformForOs(
+  platforms: PlatformDownload[],
+  os: OsGroup | "unknown" | null,
+  arch: "arm64" | "x64" = "x64",
+): PlatformDownload {
+  const targetOs: OsGroup = os === "mac" || os === "linux" ? os : "windows";
+
+  if (targetOs === "mac") {
+    const preferredId: PlatformId = arch === "x64" ? "mac-intel" : "mac-arm";
+    const found = platforms.find((p) => p.id === preferredId);
+    if (found?.asset) return found;
+    return platforms.find((p) => p.os === "mac" && p.asset) ?? platforms[0];
+  }
+
+  if (targetOs === "windows") {
+    const preferredId: PlatformId = arch === "arm64" ? "win-arm" : "win-x64";
+    const found = platforms.find((p) => p.id === preferredId);
+    if (found?.asset) return found;
+    return (
+      platforms.find((p) => p.os === "windows" && p.asset) ??
+      platforms.find((p) => p.id === "win-x64") ??
+      platforms[0]
+    );
+  }
+
+  // linux
+  const preferredId: PlatformId = arch === "arm64" ? "linux-arm" : "linux-x64";
+  const found = platforms.find((p) => p.id === preferredId);
+  if (found?.asset) return found;
+  return (
+    platforms.find((p) => p.os === "linux" && p.asset) ??
+    platforms.find((p) => p.id === "linux-x64") ??
+    platforms[0]
+  );
+}
+
+export function getFallbackPlatforms(): PlatformDownload[] {
+  return mapPlatforms(null);
 }
 
 /** File extension, for labelling a download button. */

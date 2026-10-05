@@ -1,11 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Search, Star, Download, Menu, X, ArrowLeft, Terminal } from "lucide-react";
 import { GithubIcon } from "@/components/ui/BrandIcons";
 import { LogoMark } from "@/components/site/LogoMark";
 import { SITE } from "@/lib/site";
+import { useDetectedSystem } from "@/lib/useOs";
+import {
+  getFallbackPlatforms,
+  getPlatformForOs,
+  assetFormat,
+  type PlatformDownload,
+} from "@/lib/github";
+import { DownloadFeedbackModal } from "@/components/site/DownloadFeedbackModal";
 
 interface DocNavProps {
   stars?: number;
@@ -25,6 +33,16 @@ export function DocNav({
   activeDocId,
 }: DocNavProps) {
   const isCliActive = activeDocId.startsWith("cli-");
+  const detected = useDetectedSystem();
+  const [modalPlatform, setModalPlatform] = useState<PlatformDownload | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const platforms = getFallbackPlatforms();
+  const targetPlatform = getPlatformForOs(
+    platforms,
+    detected?.os ?? "windows",
+    detected?.arch ?? "x64",
+  );
 
   return (
     <header className="sticky top-0 z-40 flex h-14 w-full items-center justify-between border-b border-white/[0.08] bg-[#0A0A0B]/95 px-4 backdrop-blur-md sm:px-6 lg:px-8 xl:px-10">
@@ -125,14 +143,33 @@ export function DocNav({
         </a>
 
         {/* Download IDE button */}
-        <Link
-          href="/download"
+        <a
+          href={targetPlatform?.asset?.url || "/api/download"}
+          download={targetPlatform?.asset?.name}
+          onClick={() => {
+            if (targetPlatform?.asset) {
+              setModalPlatform(targetPlatform);
+              setIsModalOpen(true);
+            }
+          }}
           className="flex items-center gap-1.5 rounded-xl bg-white/[0.1] px-3 py-1.5 text-[12.5px] font-medium text-white transition-all hover:bg-ember-500 hover:text-white active:scale-95"
         >
           <Download className="h-3.5 w-3.5" />
           <span>Download</span>
-        </Link>
+          {targetPlatform?.asset && (
+            <span className="hidden sm:inline font-mono text-[10px] opacity-75">
+              .{assetFormat(targetPlatform.asset.name)}
+            </span>
+          )}
+        </a>
       </div>
+
+      <DownloadFeedbackModal
+        platform={modalPlatform}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        version="1.9.15"
+      />
     </header>
   );
 }

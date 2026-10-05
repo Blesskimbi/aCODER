@@ -1,9 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { Laptop, Terminal, KeyRound, Cpu, Check, Copy, ArrowRight } from "lucide-react";
+import { Laptop, Terminal, KeyRound, Cpu, Check, Copy, ArrowRight, Download } from "lucide-react";
 import Link from "next/link";
 import { INSTALL } from "@/lib/site";
+import { useDetectedSystem } from "@/lib/useOs";
+import {
+  getFallbackPlatforms,
+  getPlatformForOs,
+  assetFormat,
+  type PlatformDownload,
+} from "@/lib/github";
+import { DownloadFeedbackModal } from "@/components/site/DownloadFeedbackModal";
 
 interface DocQuickstartGridProps {
   onSelectDoc?: (docId: string) => void;
@@ -11,6 +19,16 @@ interface DocQuickstartGridProps {
 
 export function DocQuickstartGrid({ onSelectDoc }: DocQuickstartGridProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const detected = useDetectedSystem();
+  const [modalPlatform, setModalPlatform] = useState<PlatformDownload | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const platforms = getFallbackPlatforms();
+  const targetPlatform = getPlatformForOs(
+    platforms,
+    detected?.os ?? "windows",
+    detected?.arch ?? "x64",
+  );
 
   const handleCopy = (key: string, text: string) => {
     navigator.clipboard.writeText(text);
@@ -50,13 +68,21 @@ export function DocQuickstartGrid({ onSelectDoc }: DocQuickstartGridProps) {
           </div>
 
           <div className="mt-4 flex items-center justify-between border-t border-white/[0.06] pt-3">
-            <Link
-              href="/download"
+            <a
+              href={targetPlatform?.asset?.url || "/api/download"}
+              download={targetPlatform?.asset?.name}
+              onClick={() => {
+                if (targetPlatform?.asset) {
+                  setModalPlatform(targetPlatform);
+                  setIsModalOpen(true);
+                }
+              }}
               className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-ember-400 hover:text-ember-300"
             >
-              <span>Download Release 1.9.15</span>
+              <Download className="h-3.5 w-3.5" />
+              <span>Download for {detected ? detected.label : "Desktop"}</span>
               <ArrowRight className="h-3 w-3" />
-            </Link>
+            </a>
             {onSelectDoc && (
               <button
                 type="button"
@@ -180,6 +206,13 @@ export function DocQuickstartGrid({ onSelectDoc }: DocQuickstartGridProps) {
           </div>
         </div>
       </div>
+
+      <DownloadFeedbackModal
+        platform={modalPlatform}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        version="1.9.15"
+      />
     </div>
   );
 }

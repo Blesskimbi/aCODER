@@ -7,6 +7,7 @@ import { CopyCommand } from "@/components/site/CopyCommand";
 import {
   getRepoStats,
   getLatestRelease,
+  getReleases,
   mapPlatforms,
 } from "@/lib/github";
 import { GITHUB_FALLBACK, INSTALL, SITE } from "@/lib/site";
@@ -20,13 +21,14 @@ export const metadata: Metadata = {
 };
 
 export default async function DownloadPage() {
-  const [stats, release] = await Promise.all([
+  const [stats, release, recentReleases] = await Promise.all([
     getRepoStats(),
     getLatestRelease(),
+    getReleases(3),
   ]);
 
   const version = release?.version ?? GITHUB_FALLBACK.latestVersion;
-  const platforms = mapPlatforms(release);
+  const platforms = mapPlatforms(release, recentReleases);
 
   return (
     <>
